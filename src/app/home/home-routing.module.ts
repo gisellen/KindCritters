@@ -6,6 +6,10 @@ const routes: Routes = [
   {
     path: '',
     component: HomePage,
+  },
+  {
+    path: 'reminder-detail',
+    loadChildren: () => import('./reminder-detail/reminder-detail.module').then( m => m.ReminderDetailPageModule)
   }
 ];
 
