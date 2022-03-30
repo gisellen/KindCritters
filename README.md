@@ -6,3 +6,10 @@ An RPG style reminder application for CSC 438 (Mobile Development).  This is int
 **Management and Organization**: Trello, Agile Methodology
 
 **Technologies**: HTML, SCSS, Javascript, AngularJS, NodeJS, Typescript, Ionic, Figma
+
+## Prototype
+The prototype can be found here:
+[Figma Prototype](https://www.figma.com/file/0q3pllpd602gaxAemzhSz6/KindCritters?node-id=0%3A1)
+
+_**Assets & Credits**_: Pipoya @ itch.io - [Emoticon Pack](https://pipoya.itch.io/free-popup-emotes-pack) | [RPG Character set](https://pipoya.itch.io/pipoya-free-rpg-character-sprites-32x32)
+
