@@ -11,5 +11,10 @@ An RPG style reminder application for CSC 438 (Mobile Development).  This is int
 The prototype can be found here:
 [Figma Prototype](https://www.figma.com/file/0q3pllpd602gaxAemzhSz6/KindCritters?node-id=0%3A1)
 
+## Installation
+Clone the repository then run `npm install` to install local packages.
+
+## Assets & Credits
 _**Assets & Credits**_: Pipoya @ itch.io - [Emoticon Pack](https://pipoya.itch.io/free-popup-emotes-pack) | [RPG Character set](https://pipoya.itch.io/pipoya-free-rpg-character-sprites-32x32)
 
+_**Chart**_: Chart.js Contributors - [Github Page](https://github.com/chartjs/Chart.js)
