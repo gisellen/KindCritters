@@ -43,8 +43,22 @@ export class StatsPage implements AfterViewInit {
             'rgba(0,0,0,0)',
             'rgba(0,0,0,0)'
           ],
-          borderWidth: 1
+          borderWidth: 1,
         }]
+      },
+      options: {
+        scales: {
+          x: {
+            grid: {
+              display: false
+            }
+          },
+          y: {
+            grid: {
+              display: false
+            }
+          }
+        }
       }
     })
   }
