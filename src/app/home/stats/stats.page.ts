@@ -19,12 +19,17 @@ export class StatsPage implements AfterViewInit {
   }
 
   barChartMethod(){
-    this.barChart = new Chart(this.barCanvas.nativeElement, {
+    let start = new Date(), 
+        end = new Date();
+    start.setDate(start.getDate() - 7 );
+    start.setHours(0, 0, 0, 0);
+    console.log(start)
+
+    this.barChart = new Chart(this.barCanvas.nativeElement, { //TODO: set graph to previous 7 days
       type: 'bar',
       data: {
-        labels: ['BJP', 'INC', 'AAP', 'CPI', 'CPI-M', 'NCP'],
         datasets: [{
-          label: '# of votes',
+          label: '7 Day stats',
           data: [200, 50, 30, 15, 20, 34],
           backgroundColor: [
             'rgba(255, 99, 132, 1)',
@@ -44,8 +49,8 @@ export class StatsPage implements AfterViewInit {
             'rgba(0,0,0,0)'
           ],
           borderWidth: 1
-        }]
-      }
+        }],
+      },
     })
   }
 }
