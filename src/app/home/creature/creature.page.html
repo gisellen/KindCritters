@@ -1,9 +1,27 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>creature</ion-title>
-  </ion-toolbar>
 </ion-header>
 
 <ion-content>
-Creature Page
+  <ion-card class="main-card">
+    <ion-card-header>
+      <ion-card-title class="creatureTitle">Ghost </ion-card-title>
+      <ion-card-subtitle class="creatureFeeling"
+        >...is currently Happy
+      </ion-card-subtitle>
+    </ion-card-header>
+    <ion-row class="ion-justify-content-evenly">
+      <ion-col size="6">
+        <ion-card class="taskscomp"> 15 tasks completed today</ion-card>
+      </ion-col>
+      <ion-col size="6">
+        <ion-card class="tasksnotcomp">3 tasks not completed today</ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+
+  <ion-row class="ion-justify-content-center">
+    <ion-col size="3">
+      <ion-img src="/assets/ghostgif.gif" width="300px"></ion-img>
+    </ion-col>
+  </ion-row>
 </ion-content>

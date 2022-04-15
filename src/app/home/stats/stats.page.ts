@@ -1,6 +1,7 @@
 import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { registerables } from 'chart.js';
 import Chart from 'chart.js/auto';
+import {DateTime} from 'luxon';
 
 Chart.register(...registerables);
 
@@ -19,13 +20,25 @@ export class StatsPage implements AfterViewInit {
   }
 
   barChartMethod(){
-    this.barChart = new Chart(this.barCanvas.nativeElement, {
+    const DATA_COUNT = 7;
+    const NUMBER_CFG = {count: DATA_COUNT, min: 0, max: 100}; 
+    console.log(DateTime.now().plus(1))
+
+    this.barChart = new Chart(this.barCanvas.nativeElement, { //TODO: set graph to previous 7 days
       type: 'bar',
       data: {
-        labels: ['BJP', 'INC', 'AAP', 'CPI', 'CPI-M', 'NCP'],
+        labels: [ // Date Objects
+          DateTime.now().plus({days: -6}).toLocaleString(),
+          DateTime.now().plus({days: -5}).toLocaleString(),
+          DateTime.now().plus({days: -4}).toLocaleString(),
+          DateTime.now().plus({days: -3}).toLocaleString(),
+          DateTime.now().plus({days: -2}).toLocaleString(),
+          DateTime.now().plus({days: -1}).toLocaleString(),
+          DateTime.now().plus({days: 0}).toLocaleString(),
+        ],
         datasets: [{
-          label: '# of votes',
-          data: [200, 50, 30, 15, 20, 34],
+          label: 'Completed',
+          data: [200, 50, 30, 15, 20, 34, 20],
           backgroundColor: [
             'rgba(255, 99, 132, 1)',
             'rgba(54, 162, 235, 1)',
@@ -49,9 +62,18 @@ export class StatsPage implements AfterViewInit {
       options: {
         scales: {
           x: {
+
+            time: {
+              // Luxon format string
+              tooltipFormat: 'DD T'
+            },
+            title: {
+              display: true,
+              text: 'Date'
+            },
             grid: {
               display: false
-            }
+            },
           },
           y: {
             grid: {
