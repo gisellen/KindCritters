@@ -24,7 +24,7 @@ export class StatsPage implements AfterViewInit {
     const NUMBER_CFG = {count: DATA_COUNT, min: 0, max: 100}; 
     console.log(DateTime.now().plus(1))
 
-    this.barChart = new Chart(this.barCanvas.nativeElement, { //TODO: set graph to previous 7 days
+    this.barChart = new Chart(this.barCanvas.nativeElement, { 
       type: 'bar',
       data: {
         labels: [ // Date Objects
@@ -37,8 +37,8 @@ export class StatsPage implements AfterViewInit {
           DateTime.now().plus({days: 0}).toLocaleString(),
         ],
         datasets: [{
-          label: 'Completed',
-          data: [200, 50, 30, 15, 20, 34, 20],
+          label: 'Goals Completed', 
+          data: [30, 50, 30, 15, 20, 34, 20], //TODO: Set data based on  
           backgroundColor: [
             'rgba(255, 99, 132, 1)',
             'rgba(54, 162, 235, 1)',
