@@ -38,7 +38,7 @@ export class StatsPage implements AfterViewInit {
         ],
         datasets: [{
           label: 'Goals Completed', 
-          data: [30, 50, 30, 15, 20, 34, 20], //TODO: Set data based on  
+          data: [4, 2, 6, 3, 2, 4, 5], //TODO: Set data based on  
           backgroundColor: [
             'rgba(255, 99, 132, 1)',
             'rgba(54, 162, 235, 1)',
@@ -48,21 +48,17 @@ export class StatsPage implements AfterViewInit {
             'rgba(255, 159, 64, 1)'
           ],
           borderRadius: 10,
-          borderColor: [
-            'rgba(0,0,0,0)',
-            'rgba(0,0,0,0)',
-            'rgba(0,0,0,0)',
-            'rgba(0,0,0,0)',
-            'rgba(0,0,0,0)',
-            'rgba(0,0,0,0)'
-          ],
           borderWidth: 1,
         }]
       },
       options: {
+        plugins: {
+          legend: {
+            display: false
+          }
+        },
         scales: {
           x: {
-
             time: {
               // Luxon format string
               tooltipFormat: 'DD T'
@@ -80,7 +76,7 @@ export class StatsPage implements AfterViewInit {
               display: false
             }
           }
-        }
+        },
       }
     })
   }

@@ -65,9 +65,14 @@ ion-content {
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 35vh;
+  height: 40vh;
 }
 
 .viewport{
   position: relative;
+}
+
+.emote-image{
+  transform: rotate(-45deg);
+  width: 40px !important;
 }
