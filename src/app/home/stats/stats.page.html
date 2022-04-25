@@ -1,9 +1,20 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>stats</ion-title>
-  </ion-toolbar>
 </ion-header>
-
 <ion-content>
-Stats Page
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>7 Day Stats</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <canvas #barCanvas style="position: relative; height: 17vh; width: 40vw"></canvas>
+    </ion-card-content>
+  </ion-card>
+  <ion-grid class="creature-container">
+    <ion-row class="ion-justify-content-center creature">
+      <ion-col size="6">
+        <ion-img class="emote-image" src="/assets/emote-gif.gif" width="10px"></ion-img>
+        <ion-img src="/assets/ghostgif.gif"></ion-img>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
