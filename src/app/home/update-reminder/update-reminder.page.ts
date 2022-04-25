@@ -37,7 +37,7 @@ export class UpdateReminderPage implements OnInit {
       itemPriority: this.itemPriority,
     };
     // eslint-disable-next-line prefer-const
-    let uid = this.reminder.key;
+    let uid = this.reminder.value;
     await this.reminderService.updateReminder(uid, this.newReminderObj);
     this.dismis();
   }
