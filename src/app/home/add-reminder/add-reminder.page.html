@@ -1,6 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Add New Reminder</ion-title>
+    <ion-icon name="close" slot="end" size="larger" class="ion-padding" (click)="dismis()"></ion-icon>
   </ion-toolbar>
 </ion-header>
 
@@ -31,11 +32,23 @@
     </ion-item>
 
     <ion-item>
-      <!-- Remove label for now cause it overlaps with the calender -->
-      <!-- <ion-label position="floating">Date & Time</ion-label> -->
       <ion-datetime [(ngModel)]="itemDueDate" displayFormat="D MMM YYYY H:mm"></ion-datetime>
     </ion-item>
 
+    <ion-item>
+      <ion-icon name="pricetag-outline" slot="start"></ion-icon>
+      <ion-label> Category</ion-label>
+      <span>{{categorySelectedCategory}}</span>
+    </ion-item>
+
+    <ion-item>
+      <ion-chip *ngFor="let tag of categories; let i = index" color="secondary" outline="true"
+        (click)="selectedCategory(i)">
+        <ion-label color="secondary">{{tag}}</ion-label>
+      </ion-chip>
+    </ion-item>
+
+    <ion-button class="ion-margin" expand="block" (click)="add()">Add Task</ion-button>
     <!-- <ion-row class="ion-justify-content-center">
       <ion-col size="auto">
         <ion-tab-button tab="add-reminder">
@@ -43,8 +56,6 @@
         </ion-tab-button>
       </ion-col>
     </ion-row> -->
-
-    <ion-button class="ion-margin" expand="block" (click)="add()">Add Task</ion-button>
 
   </ion-card>
 </ion-content>

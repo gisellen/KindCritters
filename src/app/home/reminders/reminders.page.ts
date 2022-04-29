@@ -38,6 +38,11 @@ export class RemindersPage implements OnInit {
     console.log(this.reminderList);
   }
 
+  complete(key) {
+    this.reminderService.completeReminder(key);
+    this.getAllReminders();
+  }
+
   delete(key) {
     this.reminderService.deleteReminder(key);
     this.getAllReminders();

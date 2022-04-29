@@ -43,7 +43,7 @@ const routes: Routes = [
     ],
   },
   {
-    path: 'reminder-detail',
+    path: ':reminder-detail',
     loadChildren: () =>
       import('./reminder-detail/reminder-detail.module').then(
         (m) => m.ReminderDetailPageModule

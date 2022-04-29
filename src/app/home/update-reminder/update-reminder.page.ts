@@ -9,22 +9,36 @@ import { ReminderService } from '../reminder.service';
 })
 export class UpdateReminderPage implements OnInit {
   @Input() reminder;
+  categories = [];
+  categorySelectedCategory;
+
   newReminderObj = {};
-  itemName: any;
-  itemDetails: any;
-  itemDueDate: any;
-  itemPriority: any;
+  itemName;
+  itemDetails;
+  itemDueDate;
+  itemPriority;
+  itemCategory;
+
   constructor(
     public modalCtrl: ModalController,
     public reminderService: ReminderService
   ) {}
 
   ngOnInit() {
-    this.itemName = this.reminder.value.itemName;
-    this.itemDetails = this.reminder.value.itemDetails;
-    this.itemDueDate = this.reminder.value.itemDueDate;
-    this.itemPriority = this.reminder.value.itemPriority;
+    this.categories.push('work');
+    this.categories.push('personal');
+
+    this.itemName = this.reminder.key.itemName;
+    this.itemDetails = this.reminder.key.itemDetails;
+    this.itemDueDate = this.reminder.key.itemDueDate;
+    this.itemPriority = this.reminder.key.itemPriority;
+    this.categorySelectedCategory = this.reminder.key.itemCategory;
   }
+  selectCategory(index) {
+    this.categorySelectedCategory = this.categories[index];
+    console.log(this.categorySelectedCategory);
+  }
+
   async dismis() {
     await this.modalCtrl.dismiss();
   }
@@ -35,6 +49,7 @@ export class UpdateReminderPage implements OnInit {
       itemDetails: this.itemDetails,
       itemDueDate: this.itemDueDate,
       itemPriority: this.itemPriority,
+      itemCategory: this.categorySelectedCategory,
     };
     // eslint-disable-next-line prefer-const
     let uid = this.reminder.value;

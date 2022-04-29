@@ -8,18 +8,25 @@ import { ReminderService } from '../reminder.service';
   styleUrls: ['./add-reminder.page.scss'],
 })
 export class AddReminderPage implements OnInit {
+  categories = [];
+  categorySelectedCategory;
+
   newReminderObj = {};
-  itemName: any;
-  itemDetails: any;
-  itemDueDate: any;
-  itemPriority: any;
+  itemName;
+  itemDetails;
+  itemDueDate;
+  itemPriority;
+  itemCategory;
 
   constructor(
     public modalCtrl: ModalController,
     public reminderService: ReminderService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.categories.push('work');
+    this.categories.push('personal');
+  }
 
   async add() {
     this.newReminderObj = {
@@ -27,6 +34,7 @@ export class AddReminderPage implements OnInit {
       itemDetails: this.itemDetails,
       itemDueDate: this.itemDueDate,
       itemPriority: this.itemPriority,
+      itemCategory: this.categorySelectedCategory,
     };
     console.log(this.newReminderObj);
     const uid = this.itemName + this.itemDueDate;
@@ -38,6 +46,11 @@ export class AddReminderPage implements OnInit {
     }
 
     this.dismis();
+  }
+
+  selectedCategory(index) {
+    this.categorySelectedCategory = this.categories[index];
+    console.log(this.categorySelectedCategory);
   }
 
   async dismis() {

@@ -13,15 +13,14 @@ export class ReminderService {
     this.storage.set(key, value);
   }
 
-  completeReminder() {}
+  completeReminder(key) {
+    this.storage.keys();
+    this.storage.remove(key);
+  }
 
   deleteReminder(key) {
     this.storage.remove(key);
   }
-
-  // deleteReminder() {
-  //   this.storage.clear();
-  // }
 
   updateReminder(key, newValue) {
     this.storage.set(key, newValue);

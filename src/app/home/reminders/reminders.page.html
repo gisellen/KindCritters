@@ -9,8 +9,7 @@
     <ion-card-header>
       <ion-card-subtitle
         [style.color]="item.key.itemPriority === 'high' ? 'red' : (item.key.itemPriority === 'low' ? 'green' : 'orange')">
-        {{item.key.itemPriority}}
-        <ion-icon name="alert-circle-outline"></ion-icon>
+        {{item.key.itemCategory}}
       </ion-card-subtitle>
 
       <ion-item>
@@ -23,6 +22,9 @@
     </ion-card-header>
 
     <ion-card-content>
+      <ion-item>
+        <ion-label>{{item.key.itemDetails}}</ion-label>
+      </ion-item>
       <ion-label>Due {{item.key.itemDueDate | date:'fullDate'}}</ion-label>
     </ion-card-content>
 
@@ -32,10 +34,10 @@
         <p>Update</p>
       </ion-item>
 
-      <!-- <ion-item>
+      <ion-item (click)="complete(item.value)">
         <ion-icon name="checkmark-outline"></ion-icon>
         <p>Complete</p>
-      </ion-item> -->
+      </ion-item>
 
       <ion-item (click)="delete(item.value)">
         <ion-icon name="trash-outline"></ion-icon>

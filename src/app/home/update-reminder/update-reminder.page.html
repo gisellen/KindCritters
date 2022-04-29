@@ -33,9 +33,20 @@
     </ion-item>
 
     <ion-item>
-      <!-- Remove label for now cause it overlaps with the calender -->
-      <!-- <ion-label position="floating">Date & Time</ion-label> -->
       <ion-datetime [(ngModel)]="itemDueDate" displayFormat="D MMM YYYY H:mm"></ion-datetime>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="pricetag-outline" slot="start"></ion-icon>
+      <ion-label> Category</ion-label>
+      <span>{{categorySelectedCategory}}</span>
+    </ion-item>
+
+    <ion-item>
+      <ion-chip *ngFor="let tag of categories; let i = index" color="secondary" outline="true"
+        (click)="selectCategory(i)">
+        <ion-label color="secondary">{{tag}}</ion-label>
+      </ion-chip>
     </ion-item>
 
     <!-- <ion-row class="ion-justify-content-center">
