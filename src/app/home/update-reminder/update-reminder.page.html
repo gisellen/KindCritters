@@ -1,15 +1,16 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Add New Reminder</ion-title>
+    <ion-title>Edit Reminder</ion-title>
     <ion-icon name="close" slot="end" size="larger" class="ion-padding" (click)="dismis()"></ion-icon>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+
   <ion-card class="remcard">
 
     <ion-card-header>
-      <ion-card-title class="ion-align-self-center" class="remtitle">New Reminder </ion-card-title>
+      <ion-card-title class="ion-align-self-center" class="remtitle">Reminder </ion-card-title>
     </ion-card-header>
 
     <ion-item>
@@ -43,12 +44,11 @@
 
     <ion-item>
       <ion-chip *ngFor="let tag of categories; let i = index" color="secondary" outline="true"
-        (click)="selectedCategory(i)">
+        (click)="selectCategory(i)">
         <ion-label color="secondary">{{tag}}</ion-label>
       </ion-chip>
     </ion-item>
 
-    <ion-button class="ion-margin" expand="block" (click)="add()">Add Task</ion-button>
     <!-- <ion-row class="ion-justify-content-center">
       <ion-col size="auto">
         <ion-tab-button tab="add-reminder">
@@ -56,6 +56,8 @@
         </ion-tab-button>
       </ion-col>
     </ion-row> -->
+
+    <ion-button class="ion-margin" expand="block" (click)="update()">Update Task</ion-button>
 
   </ion-card>
 </ion-content>
