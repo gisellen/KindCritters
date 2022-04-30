@@ -12,6 +12,7 @@ import { UpdateReminderPage } from '../update-reminder/update-reminder.page';
 export class RemindersPage implements OnInit {
   // Reminder Array list
   reminderList = [];
+  reminderCount;
 
   constructor(
     public modalCtrl: ModalController,
@@ -38,6 +39,9 @@ export class RemindersPage implements OnInit {
     console.log(this.reminderList);
   }
 
+  getReminderCount(){
+    this.reminderCount = this.reminderService.getReminderCount();
+  }
   complete(key) {
     this.reminderService.completeReminder(key);
     this.getAllReminders();

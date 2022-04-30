@@ -1,56 +1,59 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Reminders</ion-title>
-  </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-card *ngFor="let item of reminderList; let i = index" class="ion-margin">
-    <ion-card-header>
-      <ion-card-subtitle
-        [style.color]="item.key.itemPriority === 'high' ? 'red' : (item.key.itemPriority === 'low' ? 'green' : 'orange')">
-        {{item.key.itemCategory}}
-      </ion-card-subtitle>
-
-      <ion-item>
-        <ion-icon *ngIf="item.key.itemPriority === 'high' " color="danger" size="small" name="ellipse"></ion-icon>
-        <ion-icon *ngIf="item.key.itemPriority === 'middle' " color="warning" size="small" name="ellipse"></ion-icon>
-        <ion-icon *ngIf="item.key.itemPriority === 'low' " color="success" size="small" name="ellipse"></ion-icon>
-        <ion-label>{{item.key.itemName}}</ion-label>
-      </ion-item>
-
-    </ion-card-header>
-
-    <ion-card-content>
-      <ion-item>
-        <ion-label>{{item.key.itemDetails}}</ion-label>
-      </ion-item>
-      <ion-label>Due {{item.key.itemDueDate | date:'fullDate'}}</ion-label>
-    </ion-card-content>
-
-    <ion-row>
-      <ion-item button (click)="update(item)">
-        <ion-icon name="refresh-outline"></ion-icon>
-        <p>Update</p>
-      </ion-item>
-
-      <ion-item (click)="complete(item.value)">
-        <ion-icon name="checkmark-outline"></ion-icon>
-        <p>Complete</p>
-      </ion-item>
-
-      <ion-item (click)="delete(item.value)">
-        <ion-icon name="trash-outline"></ion-icon>
-        <p>Delete</p>
-      </ion-item>
+  <ion-grid>
+    <ion-row class="ion-justify-content-center creature">
+      <ion-img class="emote-image" src="/assets/emote-gif.gif" width="10px"></ion-img>
+      <ion-img class="creature-container" src="/assets/ghostgif.gif"></ion-img>
     </ion-row>
+    <ion-row>
+      <div class="list-header">Upcoming</div>
+      <ion-card *ngFor="let item of reminderList; let i = index" class="ion-margin">
+        <ion-card-header>
+          <ion-card-subtitle
+            [style.color]="item.key.itemPriority === 'high' ? 'red' : (item.key.itemPriority === 'low' ? 'green' : 'orange')">
+            {{item.key.itemCategory}}
+          </ion-card-subtitle>
+          <ion-icon *ngIf="item.key.itemPriority === 'high' " color="danger" size="small" name="ellipse"></ion-icon>
+          <ion-icon *ngIf="item.key.itemPriority === 'middle' " color="warning" size="small" name="ellipse"></ion-icon>
+          <ion-icon *ngIf="item.key.itemPriority === 'low' " color="success" size="small" name="ellipse"></ion-icon>
+        </ion-card-header>
 
-  </ion-card>
+        <ion-card-content>
+          <div class="content-container">
+            <ion-icon name="bed" class="bed-icon" size="large"></ion-icon>
+            <div class="title-desc">
+              <ion-label class="title">{{item.key.itemName}}</ion-label>
+              <ion-label class="desc">{{item.key.itemDetails}}</ion-label>
+              <div class="date-container">
+                <ion-icon name="time" class="time"></ion-icon>
+                <ion-label class="date">Due {{item.key.itemDueDate | date:'fullDate'}}</ion-label>
+              </div>
+            </div>
+          </div>
+        </ion-card-content>
+        <ion-row>
+          <ion-item (click)="update(item)">
+            <ion-icon name="refresh-outline"></ion-icon>
+            <p>Update</p>
+          </ion-item>
+          <ion-item (click)="complete(item.value)">
+            <ion-icon name="checkmark-outline"></ion-icon>
+            <p>Complete</p>
+          </ion-item>
+          <ion-item (click)="delete(item.value)">
+            <ion-icon name="trash-outline"></ion-icon>
+            <p>Delete</p>
+          </ion-item>
+        </ion-row>
+      </ion-card>
 
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="addNewItem()">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
-
+      <ion-fab vertical="bottom" horizontal="center">
+        <ion-fab-button (click)="addNewItem()">
+          <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+    </ion-row>
+  </ion-grid>
 </ion-content>

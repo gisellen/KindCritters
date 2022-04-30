@@ -4,6 +4,7 @@ import { Storage } from '@ionic/storage';
 @Injectable({
   providedIn: 'root',
 })
+
 export class ReminderService {
   constructor(private storage: Storage) {
     this.init();
@@ -40,6 +41,10 @@ export class ReminderService {
     return reminders;
   }
 
+  getReminderCount(){
+    this.storage.length().then(result =>
+      console.log(result))
+  }
   // Create storage for reminders
   async init() {
     await this.storage.create();
