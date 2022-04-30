@@ -18,7 +18,7 @@ export class UpdateReminderPage implements OnInit {
   itemDueDate;
   itemPriority;
   itemCategory;
-
+  
   constructor(
     public modalCtrl: ModalController,
     public reminderService: ReminderService
@@ -50,6 +50,7 @@ export class UpdateReminderPage implements OnInit {
       itemDueDate: this.itemDueDate,
       itemPriority: this.itemPriority,
       itemCategory: this.categorySelectedCategory,
+      isCompleted: false
     };
     // eslint-disable-next-line prefer-const
     let uid = this.reminder.value;

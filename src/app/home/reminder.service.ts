@@ -16,7 +16,7 @@ export class ReminderService {
 
   completeReminder(key) {
     this.storage.keys();
-    this.storage.remove(key);
+    // this.storage.remove(key);
   }
 
   deleteReminder(key) {
@@ -38,6 +38,33 @@ export class ReminderService {
     this.storage.forEach((value, key, index) => {
       reminders.push({ key: value, value: key });
     });
+    console.log(reminders)
+    return reminders;
+  }
+
+  setCompleted(key, newValue){
+    this.storage.set(key, newValue);
+    this.getAllReminders();
+  }
+
+  getUncompletedReminders(){
+    let reminders: any = [];
+    this.storage.forEach((value, key, index) => {
+      if(value.isCompleted === false){
+      reminders.push({ key: value, value: key });
+    }
+    });
+    console.log(reminders)
+    return reminders;
+  }
+
+  getCompletedReminders(){
+    let reminders: any = [];
+    this.storage.forEach((value, key, index) => {
+      if(value.isCompleted === true){
+      reminders.push({ key: value, value: key });
+    }
+    });
     return reminders;
   }
 
@@ -45,8 +72,28 @@ export class ReminderService {
     this.storage.length().then(result =>
       console.log(result))
   }
+
+  getReminders(){
+    let reminders: any = [];
+    this.storage.forEach((value, key, index) => {
+      reminders.push({ key: value, value: key });
+    });
+    console.log(reminders)
+  }
   // Create storage for reminders
   async init() {
     await this.storage.create();
   }
+
+  //debug function
+debug(){
+  let reminders: any = [];
+  this.storage.forEach((value, key, index) => {
+    if(value.isCompleted === true){
+    reminders.push({ key: value, value: key });
+  }
+  });
+  console.log(reminders)
 }
+}
+

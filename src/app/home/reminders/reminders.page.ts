@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { ReminderService } from '../reminder.service';
 import { AddReminderPage } from '../add-reminder/add-reminder.page';
@@ -12,7 +12,10 @@ import { UpdateReminderPage } from '../update-reminder/update-reminder.page';
 export class RemindersPage implements OnInit {
   // Reminder Array list
   reminderList = [];
+  UncompleteReminderList = [];
+  completedReminderList = [];
   reminderCount;
+
 
   constructor(
     public modalCtrl: ModalController,
@@ -20,7 +23,8 @@ export class RemindersPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.reminderList = this.reminderService.getAllReminders(); // Get all reminders from storage
+    this.UncompleteReminderList = this.reminderService.getUncompletedReminders(); // Get all Uncompleted reminders from storage
+    this.completedReminderList = this.reminderService.getCompletedReminders();
   }
 
   async addNewItem() {
@@ -28,7 +32,7 @@ export class RemindersPage implements OnInit {
       component: AddReminderPage,
     });
     modal.onDidDismiss().then((newReminder) => {
-      this.getAllReminders();
+      this.getUncompletedReminders();
       console.log(newReminder);
     });
     return await modal.present();
@@ -42,14 +46,39 @@ export class RemindersPage implements OnInit {
   getReminderCount(){
     this.reminderCount = this.reminderService.getReminderCount();
   }
-  complete(key) {
-    this.reminderService.completeReminder(key);
-    this.getAllReminders();
+  
+  async complete(key, value) {
+    let newReminderObj = {
+      itemName: value.itemName,
+      itemDetails: value.itemDetails,
+      itemDueDate: value.itemDueDate,
+      itemPriority: value.itemPriority,
+      itemCategory: value.itemCategory,
+      isCompleted: true
+    };
+    await this.reminderService.setCompleted(key, newReminderObj);
+    this.getUncompletedReminders();
+    this.getCompletedReminders();
   }
 
   delete(key) {
     this.reminderService.deleteReminder(key);
-    this.getAllReminders();
+    this.getUncompletedReminders();
+    this.getCompletedReminders();
+  }
+
+  getUncompletedReminders(){
+    this.UncompleteReminderList = this.reminderService.getUncompletedReminders();
+  }
+
+  getCompletedReminders(){
+    this.completedReminderList = this.reminderService.getCompletedReminders();
+  }
+
+// DEBUG FUNCTIONS
+  debug(){
+    // this.reminderService.debug()
+    console.log(this.UncompleteReminderList)
   }
 
   async update(selectedReminder) {
@@ -59,7 +88,7 @@ export class RemindersPage implements OnInit {
     });
 
     modal.onDidDismiss().then(() => {
-      this.getAllReminders();
+      this.getUncompletedReminders();
     });
     return await modal.present();
   }

@@ -35,6 +35,7 @@ export class AddReminderPage implements OnInit {
       itemDueDate: this.itemDueDate,
       itemPriority: this.itemPriority,
       itemCategory: this.categorySelectedCategory,
+      isCompleted: false
     };
     console.log(this.newReminderObj);
     const uid = this.itemName + this.itemDueDate;
