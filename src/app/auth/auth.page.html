@@ -1,9 +1,37 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>auth</ion-title>
+    <ion-title>KindCritters</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-
+<ion-content class="ion-padding background">
+    <form #f="ngForm" (onSubmit)="onSubmit(f)" class="login" color="none" lines="none">
+      <ion-list class="login" color="none" lines="none"> 
+        <ion-item class="login" color="none" lines="none">
+          <ion-label position="floating" class="login">Email</ion-label>
+          <ion-input type="email" ngModel name="email" required email #emailCtrl="ngModel" class="login"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="!emailCtrl.valid && emailCtrl.touched" lines="none" class="login" color="none" lines="none">
+          <ion-label color="danger">Should be a valid email address.</ion-label>
+        </ion-item>
+        <ion-item class="login" color="none" color="none" lines="none">
+          <ion-label position="floating" class="login">Password</ion-label>
+          <ion-input type="password" ngModel name="password" required minlength="6" #passwordCtrl="ngModel"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="!passwordCtrl.valid && passwordCtrl.touched" color="none" lines="none">
+          <ion-label color="danger">Should be at least 6 characters long.</ion-label>        
+        </ion-item>
+      </ion-list>
+      <div class="ion-text-center">
+        <ion-spinner color="primary" *ngIf="isLoading"></ion-spinner>
+      </div>
+      <ion-button type="submit" color="primary" (click)="onLogin()" style="width:100%">
+        {{isLogin ? 'Login': 'Sign Up'}}
+      </ion-button>
+      <ion-row>
+        <ion-col>
+          <ion-button type="button" color="dark" fill="clear" expand="block" (click)="onSwitchAuthMode()">Switch to {{isLogin ? 'Signup' : 'Login'}}</ion-button>
+        </ion-col>
+      </ion-row>
+    </form>
 </ion-content>
