@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content class="ion-padding background">
-  <div>
+  <ion-card>
     <form #f="ngForm" (onSubmit)="onSubmit(f)" class="login">
       <ion-list class="login"> 
         <ion-item class="login">
@@ -24,9 +24,9 @@
       <div class="ion-text-center">
         <ion-spinner color="primary" *ngIf="isLoading"></ion-spinner>
       </div>
-      <ion-button color="primary" (click)="onLogin()">
-        {{isLogin ? 'Login': 'Signup'}}
+      <ion-button color="primary" (click)="onLogin()" style="width:100%">
+        {{isLogin ? 'Login': 'Sign Up'}}
       </ion-button>
     </form>
-  </div>
+  </ion-card>
 </ion-content>
