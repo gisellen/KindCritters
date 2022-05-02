@@ -1,0 +1,95 @@
+ion-content {
+  --background: url(/assets/kindcrittersbg.png) 0 -130% no-repeat !important;
+  background: #56742c;
+}
+
+.creature {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.creature-container {
+  bottom: 0;
+  width: 40%;
+}
+
+.emote-image {
+  margin-bottom: 10px;
+  width: 40px !important;
+}
+.card-container{
+    width: 100%;
+}
+.content-container {
+  display: flex;
+
+}
+
+.list-header {
+  color: rgb(241, 243, 236);
+  font-weight: bold;
+  margin-left: 20px;
+  margin-top: 20px;
+}
+
+.bed-icon {
+  align-self: center;
+}
+
+.title-desc {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-left: 30px;
+
+  .title {
+    font-weight: bold;
+  }
+
+  .desc {
+    font-size: 10px;
+  }
+}
+
+.date-container {
+  display: flex;
+
+  .time {
+    align-self: center;
+    margin-right:5px;
+  }
+
+  .date {
+    align-self: center;
+    font-size: 13px;
+  }
+}
+
+.add-button{
+  position: fixed;
+  bottom: 20;
+  right: 0;
+}
+
+.completed-title-desc{
+  text-decoration: line-through;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-left: 30px;
+  .title {
+    font-weight: bold;
+  }
+
+  .desc {
+    font-size: 10px;
+  }
+}
+
+
+.completed {
+  opacity: 70%;
+}
