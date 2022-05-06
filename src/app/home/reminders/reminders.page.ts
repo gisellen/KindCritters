@@ -11,10 +11,11 @@ import { UpdateReminderPage } from '../update-reminder/update-reminder.page';
 })
 export class RemindersPage implements OnInit {
   // Reminder Array list
-  reminderList = [];
-  UncompleteReminderList = [];
+  reminderList: any = [];
+  UncompleteReminderList: any = [];
   completedReminderList = [];
   reminderCount;
+  unCompletedCount;
 
 
   constructor(
@@ -25,6 +26,10 @@ export class RemindersPage implements OnInit {
   ngOnInit() {
     this.UncompleteReminderList = this.reminderService.getUncompletedReminders(); // Get all Uncompleted reminders from storage
     this.completedReminderList = this.reminderService.getCompletedReminders();
+    this.reminderList = this.reminderService.getAllReminders();
+    // this.unCompletedCount = this.UncompleteReminderList.length
+    // setTimeout(function(){this.unCompletedCount = this.getUncompletedReminderCount()}, 2000);
+    // this.unCompletedCount)
   }
 
   async addNewItem() {
@@ -40,12 +45,20 @@ export class RemindersPage implements OnInit {
 
   getAllReminders() {
     this.reminderList = this.reminderService.getAllReminders();
-    console.log(this.reminderList);
+    // this.unCompletedCount = this.UncompleteReminderList.length
+    console.log(this.reminderService.getAllReminders());
   }
 
   getReminderCount(){
-    this.reminderCount = this.reminderService.getReminderCount();
+    this.unCompletedCount = this.reminderService.getReminderCount();
   }
+
+  
+  getUncompletedReminderCount(){
+    // this.unCompletedCount = this.UncompleteReminderList.length
+    return this.reminderService.getUncompletedCount();
+  }
+  
   
   async complete(key, value) {
     let newReminderObj = {
@@ -59,6 +72,7 @@ export class RemindersPage implements OnInit {
     await this.reminderService.setCompleted(key, newReminderObj);
     this.getUncompletedReminders();
     this.getCompletedReminders();
+    this.unCompletedCount--;
   }
 
   delete(key) {
@@ -78,7 +92,7 @@ export class RemindersPage implements OnInit {
 // DEBUG FUNCTIONS
   debug(){
     // this.reminderService.debug()
-    console.log(this.UncompleteReminderList)
+    this.unCompletedCount = this.UncompleteReminderList.length
   }
 
   async update(selectedReminder) {

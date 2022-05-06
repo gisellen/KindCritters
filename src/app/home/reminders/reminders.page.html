@@ -15,6 +15,7 @@
       <ion-img class="emote-image" src="/assets/emote-gif.gif" width="10px"></ion-img>
       <ion-img class="creature-container" src="/assets/ghostgif.gif"></ion-img>
     </ion-row>
+    <p>{{unCompletedCount}}</p>
     <div class="cards">
       <ion-row>
         <div class="list-header">Upcoming</div>
@@ -65,11 +66,11 @@
           </ion-fab-button>
         </ion-fab>
         <!-- BUTTON FOR DEBUG PURPOSES -->
-        <!-- <ion-fab vertical="bottom" horizontal="end">
+        <ion-fab vertical="bottom" horizontal="end">
         <ion-fab-button (click)="debug()">
           <ion-icon name="home"></ion-icon>
         </ion-fab-button>
-      </ion-fab> -->
+      </ion-fab>
       </ion-row>
       <ion-row>
         <div class="list-header">Completed</div>

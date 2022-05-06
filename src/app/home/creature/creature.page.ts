@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ReminderService } from '../reminder.service';
 
 @Component({
   selector: 'app-creature',
@@ -7,9 +8,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CreaturePage implements OnInit {
 
-  constructor() { }
+  constructor(public reminderService: ReminderService) { }
+  UncompleteReminderList: any = [];
+  count: any = 0;
 
+
+  getData(){
+    
+    // this.count = await this.getUncompleteCount();
+    // return count;
+    // console.log(JSON.parse(this.UncompleteReminderList));
+  }
+  
   ngOnInit() {
+    this.reminderService.debug();
   }
 
 }
