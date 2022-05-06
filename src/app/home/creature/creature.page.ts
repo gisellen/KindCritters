@@ -10,14 +10,12 @@ export class CreaturePage implements OnInit {
 
   constructor(public reminderService: ReminderService) { }
   UncompleteReminderList: any = [];
-  count: any = 0;
-
+  completedReminderList = [];
+  reminderCount;
+  unCompletedCount;
 
   getData(){
     
-    // this.count = await this.getUncompleteCount();
-    // return count;
-    // console.log(JSON.parse(this.UncompleteReminderList));
   }
   
   ngOnInit() {
