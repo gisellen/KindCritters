@@ -81,30 +81,26 @@ export class ReminderService {
     });
     console.log(reminders)
   }
+
+  //calculate for mood system
+  mood(){
+    let mood: any;
+    let completed = this.getCompletedReminders();
+    let total = this.getAllReminders();
+
+    mood = completed.length/total.length;
+    console.log(mood)
+  }
+
   // Create storage for reminders
   async init() {
     await this.storage.create();
   }
   
-  getUncompletedCount(){
-    let reminders: any = [];
-    this.storage.forEach((value, key, index) => {
-      if(value.isCompleted === false){
-      reminders.push({ key: value, value: key });
-    }
-    });
-    return reminders.length
-  }
 
   //debug function
 debug(){
-  let reminders: any = [];
-  this.storage.forEach((value, key, index) => {
-    if(value.isCompleted === false){
-    reminders.push({ key: value, value: key });
-  }
-  });
-  return reminders.length
+  this.storage.clear()
 }
 }
 

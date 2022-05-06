@@ -14,8 +14,6 @@ export class RemindersPage implements OnInit {
   reminderList: any = [];
   UncompleteReminderList: any = [];
   completedReminderList = [];
-  reminderCount;
-  unCompletedCount;
 
 
   constructor(
@@ -49,16 +47,6 @@ export class RemindersPage implements OnInit {
     console.log(this.reminderService.getAllReminders());
   }
 
-  getReminderCount(){
-    this.unCompletedCount = this.reminderService.getReminderCount();
-  }
-
-  
-  getUncompletedReminderCount(){
-    // this.unCompletedCount = this.UncompleteReminderList.length
-    return this.reminderService.getUncompletedCount();
-  }
-  
   
   async complete(key, value) {
     let newReminderObj = {
@@ -72,7 +60,6 @@ export class RemindersPage implements OnInit {
     await this.reminderService.setCompleted(key, newReminderObj);
     this.getUncompletedReminders();
     this.getCompletedReminders();
-    this.unCompletedCount--;
   }
 
   delete(key) {
@@ -92,7 +79,7 @@ export class RemindersPage implements OnInit {
 // DEBUG FUNCTIONS
   debug(){
     // this.reminderService.debug()
-    this.unCompletedCount = this.UncompleteReminderList.length
+    // this.unCompletedCount = this.UncompleteReminderList.length
   }
 
   async update(selectedReminder) {
