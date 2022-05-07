@@ -1,6 +1,10 @@
+body {
+  overflow: hidden;
+}
 ion-content {
   --background: url(/assets/kindcrittersbg.png) 0 -130% no-repeat !important;
   background: #56742c;
+
 }
 
 ion-title{
@@ -26,7 +30,7 @@ ion-segment-button{
 
 .cards{
   overflow-y: scroll;
-  height: 50vh;
+  height: 49vh;
 }
 
 .creature-container {

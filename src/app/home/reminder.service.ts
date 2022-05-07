@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
-import { Observable, of } from 'rxjs'; // only need to import from rxjs
 
 @Injectable({
   providedIn: 'root',
