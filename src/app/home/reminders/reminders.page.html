@@ -11,90 +11,127 @@
 
 <ion-content>
   <ion-grid>
+
     <ion-row class="ion-justify-content-center creature">
       <ion-img class="emote-image" src="/assets/emote-gif.gif" width="10px"></ion-img>
       <ion-img class="creature-container" src="/assets/ghostgif.gif"></ion-img>
     </ion-row>
+
+
+    <ion-segment [(ngModel)]="selectTabs">
+      <ion-segment-button value="upcoming">
+        <ion-label>Upcoming</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="completed">
+        <ion-label>Completed</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
     <div class="cards">
-      <ion-row>
-        <div class="list-header">Upcoming</div>
-        <ion-card *ngFor="let item of UncompleteReminderList; let i = index" class="ion-margin card-container">
-          <ion-card-header>
-            <ion-card-subtitle
-              [style.color]="item.key.itemPriority === 'high' ? 'red' : (item.key.itemPriority === 'low' ? 'green' : 'orange')">
-              {{item.key.itemCategory}}
-            </ion-card-subtitle>
-            <ion-icon *ngIf="item.key.itemPriority === 'high' " color="danger" size="small" name="ellipse"></ion-icon>
-            <ion-icon *ngIf="item.key.itemPriority === 'middle' " color="warning" size="small" name="ellipse">
-            </ion-icon>
-            <ion-icon *ngIf="item.key.itemPriority === 'low' " color="success" size="small" name="ellipse"></ion-icon>
-          </ion-card-header>
 
-          <ion-card-content>
-            <div class="content-container">
-              <ion-icon name="bed" class="bed-icon" size="large"></ion-icon>
-              <div class="title-desc">
-                <ion-label class="title">{{item.key.itemName}}</ion-label>
-                <ion-label class="desc">{{item.key.itemDetails}}</ion-label>
-                <div class="date-container">
-                  <ion-icon name="time" class="time"></ion-icon>
-                  <ion-label class="date">Due {{item.key.itemDueDate | date:'fullDate'}}</ion-label>
-                </div>
-              </div>
-            </div>
-          </ion-card-content>
-          <ion-row>
-            <ion-item (click)="update(item)">
-              <ion-icon name="refresh-outline"></ion-icon>
-              <p>Update</p>
-            </ion-item>
-            <ion-item (click)="complete(item.value, item.key)">
-              <ion-icon name="checkmark-outline"></ion-icon>
-              <p>Complete</p>
-            </ion-item>
-            <ion-item (click)="delete(item.value)">
-              <ion-icon name="trash-outline"></ion-icon>
-              <p>Delete</p>
-            </ion-item>
-          </ion-row>
-        </ion-card>
+      <div *ngIf="selectTabs === 'upcoming'">
+        <ion-row>
+          <!-- Uncompleted Task -->
+          <div class="list-header">Upcoming</div>
+          <ion-card *ngFor="let item of UncompleteReminderList; let i = index" class="ion-margin card-container">
+            <ion-item-sliding #slidingItem>
 
-        <ion-fab vertical="bottom" horizontal="center" class="add-button">
-          <ion-fab-button (click)="addNewItem()">
-            <ion-icon name="add"></ion-icon>
-          </ion-fab-button>
-        </ion-fab>
-        <!-- BUTTON FOR DEBUG PURPOSES -->
-        <!-- <ion-fab vertical="bottom" horizontal="end">
-        <ion-fab-button (click)="debug()">
-          <ion-icon name="home"></ion-icon>
+              <ion-item>
+                <ion-card-header>
+                  <ion-card-subtitle
+                    [style.color]="item.key.itemPriority === 'high' ? 'red' : (item.key.itemPriority === 'low' ? 'green' : 'orange')">
+                    {{item.key.itemCategory}}
+                  </ion-card-subtitle>
+                  <ion-icon *ngIf="item.key.itemPriority === 'high' " color="danger" size="small" name="ellipse">
+                  </ion-icon>
+                  <ion-icon *ngIf="item.key.itemPriority === 'middle' " color="warning" size="small" name="ellipse">
+                  </ion-icon>
+                  <ion-icon *ngIf="item.key.itemPriority === 'low' " color="success" size="small" name="ellipse">
+                  </ion-icon>
+                </ion-card-header>
+                <ion-card-content>
+                  <div class="content-container">
+                    <ion-icon name="bed" class="bed-icon" size="large"></ion-icon>
+                    <div class="title-desc">
+                      <ion-label class="title">{{item.key.itemName}}</ion-label>
+                      <ion-label class="desc">{{item.key.itemDetails}}</ion-label>
+                      <div class="date-container">
+                        <ion-icon name="time" class="time"></ion-icon>
+                        <ion-label class="date">Due {{item.key.itemDueDate | date:'fullDate'}}</ion-label>
+                      </div>
+                    </div>
+                  </div>
+                </ion-card-content>
+              </ion-item>
+
+              <ion-item-options side="end">
+                <ion-item-option color="warning" (click)="onUpdate(item, slidingItem)">
+                  <ion-icon name="refresh-outline"></ion-icon>
+                  <p>Update</p>
+                </ion-item-option>
+                <ion-item-option color="success" (click)="onComplete(item.value, item.key, slidingItem)">
+                  <ion-icon name="checkmark-outline"></ion-icon>
+                  <p>Complete</p>
+                </ion-item-option>
+                <ion-item-option color="danger" (click)="onDelete(item.value, slidingItem)">
+                  <ion-icon name="trash-outline"></ion-icon>
+                  <p>Delete</p>
+                </ion-item-option>
+              </ion-item-options>
+
+            </ion-item-sliding>
+          </ion-card>
+        </ion-row>
+      </div>
+
+      <div *ngIf="selectTabs === 'completed'">
+        <ion-row>
+          <!-- completed task -->
+          <div class="list-header">Completed</div>
+          <ion-card *ngFor="let cItem of completedReminderList; let i = index" class="ion-margin card-container">
+            <ion-item-sliding #slidingItem>
+
+              <ion-item>
+                <ion-card-content>
+                  <div class="content-container">
+                    <ion-icon name="bed" class="bed-icon completed" size="large"></ion-icon>
+                    <div class="completed-title-desc completed">
+                      <ion-label class="title">{{cItem.key.itemName}}</ion-label>
+                      <ion-label class="desc">{{cItem.key.itemDetails}}</ion-label>
+                      <div class="date-container">
+                        <ion-icon name="time" class="completed-time"></ion-icon>
+                        <ion-label class="date">Due {{cItem.key.itemDueDate | date:'fullDate'}}</ion-label>
+                      </div>
+                    </div>
+                  </div>
+                </ion-card-content>
+              </ion-item>
+
+              <ion-item-options side="end">
+                <ion-item-option color='danger' (click)="onDelete(cItem.value, slidingItem)">
+                  <ion-icon name="trash-outline"></ion-icon>
+                  <p>Delete</p>
+                </ion-item-option>
+              </ion-item-options>
+
+            </ion-item-sliding>
+          </ion-card>
+        </ion-row>
+      </div>
+
+      <ion-fab vertical="bottom" horizontal="center" class="add-button">
+        <ion-fab-button (click)="addNewItem()">
+          <ion-icon name="add"></ion-icon>
         </ion-fab-button>
-      </ion-fab> -->
-      </ion-row>
-      <ion-row>
-        <div class="list-header">Completed</div>
-        <ion-card *ngFor="let cItem of completedReminderList; let i = index" class="ion-margin card-container">
-          <ion-card-content>
-            <div class="content-container">
-              <ion-icon name="bed" class="bed-icon completed" size="large"></ion-icon>
-              <div class="completed-title-desc completed">
-                <ion-label class="title">{{cItem.key.itemName}}</ion-label>
-                <ion-label class="desc">{{cItem.key.itemDetails}}</ion-label>
-                <div class="date-container">
-                  <ion-icon name="time" class="completed-time"></ion-icon>
-                  <ion-label class="date">Due {{cItem.key.itemDueDate | date:'fullDate'}}</ion-label>
-                </div>
-              </div>
-            </div>
-          </ion-card-content>
-          <ion-row class="ion-justify-content-center">
-            <ion-item (click)="delete(cItem.value)">
-              <ion-icon name="trash-outline"></ion-icon>
-              <p>Delete</p>
-            </ion-item>
-          </ion-row>
-        </ion-card>
-      </ion-row>
+      </ion-fab>
+
+      <!-- BUTTON FOR DEBUG PURPOSES -->
+      <!-- <ion-fab vertical="bottom" horizontal="end">
+                      <ion-fab-button (click)="debug()">
+                        <ion-icon name="home"></ion-icon>
+                      </ion-fab-button>
+                    </ion-fab> -->
+
     </div>
   </ion-grid>
 </ion-content>

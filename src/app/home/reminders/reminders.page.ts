@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { IonItemSliding, ModalController } from '@ionic/angular';
 import { ReminderService } from '../reminder.service';
 import { AddReminderPage } from '../add-reminder/add-reminder.page';
 import { UpdateReminderPage } from '../update-reminder/update-reminder.page';
@@ -11,10 +11,10 @@ import { UpdateReminderPage } from '../update-reminder/update-reminder.page';
 })
 export class RemindersPage implements OnInit {
   // Reminder Array list
+  selectTabs = 'upcoming';
   reminderList: any = [];
   UncompleteReminderList: any = [];
   completedReminderList = [];
-
 
   constructor(
     public modalCtrl: ModalController,
@@ -22,7 +22,8 @@ export class RemindersPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.UncompleteReminderList = this.reminderService.getUncompletedReminders(); // Get all Uncompleted reminders from storage
+    this.UncompleteReminderList =
+      this.reminderService.getUncompletedReminders(); // Get all Uncompleted reminders from storage
     this.completedReminderList = this.reminderService.getCompletedReminders();
     this.reminderList = this.reminderService.getAllReminders();
     // this.unCompletedCount = this.UncompleteReminderList.length
@@ -47,7 +48,6 @@ export class RemindersPage implements OnInit {
     console.log(this.reminderService.getAllReminders());
   }
 
-  
   async complete(key, value) {
     let newReminderObj = {
       itemName: value.itemName,
@@ -55,11 +55,16 @@ export class RemindersPage implements OnInit {
       itemDueDate: value.itemDueDate,
       itemPriority: value.itemPriority,
       itemCategory: value.itemCategory,
-      isCompleted: true
+      isCompleted: true,
     };
     await this.reminderService.setCompleted(key, newReminderObj);
     this.getUncompletedReminders();
     this.getCompletedReminders();
+  }
+
+  onComplete(key, value, slidingItem: IonItemSliding) {
+    slidingItem.close();
+    this.complete(key, value);
   }
 
   delete(key) {
@@ -68,16 +73,22 @@ export class RemindersPage implements OnInit {
     this.getCompletedReminders();
   }
 
-  getUncompletedReminders(){
-    this.UncompleteReminderList = this.reminderService.getUncompletedReminders();
+  onDelete(key, slidingItem: IonItemSliding) {
+    slidingItem.close();
+    this.delete(key);
   }
 
-  getCompletedReminders(){
+  getUncompletedReminders() {
+    this.UncompleteReminderList =
+      this.reminderService.getUncompletedReminders();
+  }
+
+  getCompletedReminders() {
     this.completedReminderList = this.reminderService.getCompletedReminders();
   }
 
-// DEBUG FUNCTIONS
-  debug(){
+  // DEBUG FUNCTIONS
+  debug() {
     // this.reminderService.debug()
     // this.unCompletedCount = this.UncompleteReminderList.length
   }
@@ -92,5 +103,10 @@ export class RemindersPage implements OnInit {
       this.getUncompletedReminders();
     });
     return await modal.present();
+  }
+
+  onUpdate(value, slidingItem: IonItemSliding) {
+    slidingItem.close();
+    this.update(value);
   }
 }
