@@ -82,17 +82,12 @@ export class ReminderService {
         console.log(reminders)
         console.log(reminders.length)
       }
-      }).then(async () =>{
-        await Promise.all(reminders).then(res => {
-          let data = res;
-          return data
+      }).then(() =>{
+          return reminders;
         })
         console.log(reminders.length)
         return reminders;
       })
-      
-
-    })
   }
 
   getReminderCount(){
