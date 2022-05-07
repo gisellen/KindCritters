@@ -16,13 +16,13 @@
     <ion-card-header>
       <ion-card-title class="creatureTitle">Ghost</ion-card-title>
       <!-- TODO: Change feeling based on the scale -->
-      <ion-card-subtitle *ngIf="completedReminderList.length === 0" class="creatureFeeling">
+      <ion-card-subtitle *ngIf="completedReminderList.length/totalReminders.length === 0" class="creatureFeeling">
         ...is currently Sad!
       </ion-card-subtitle>
-      <ion-card-subtitle *ngIf="completedReminderList.length === 1" class="creatureFeeling">
+      <ion-card-subtitle *ngIf="completedReminderList.length/totalReminders.length <= 0.5 && completedReminderList.length/totalReminders.length > 0" class="creatureFeeling">
         ...is currently Okay!
       </ion-card-subtitle>
-      <ion-card-subtitle *ngIf="completedReminderList.length >= 2" class="creatureFeeling">
+      <ion-card-subtitle *ngIf="completedReminderList.length/totalReminders.length <= 1 && completedReminderList.length/totalReminders.length > 0.5" class="creatureFeeling">
         ...is currently Happy!
       </ion-card-subtitle>
       <!-- SLIDER FOR EMOTIONS, SHOULD NOT BE ABLE TO BE CLICKED ON -->

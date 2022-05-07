@@ -35,11 +35,15 @@ ion-content {
   font-style: normal;
   font-size: 20px;
   letter-spacing: -0.02em;
-
   padding: 10px;
 
   display: flex;
   flex-direction: column;
+
+  b{
+    font-weight: 900;
+    font-size: 40px;
+  }
 }
 
 .tasksnotcomp {
@@ -55,6 +59,11 @@ ion-content {
 
   display: flex;
   flex-direction: column;
+
+  b{
+    font-weight: 900;
+    font-size: 40px;
+  }
 }
 
 .cards-container{

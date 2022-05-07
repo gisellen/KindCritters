@@ -37,19 +37,8 @@
             <ion-item-sliding #slidingItem>
 
               <ion-item>
-                <ion-card-header>
-                  <ion-card-subtitle
-                    [style.color]="item.key.itemPriority === 'high' ? 'red' : (item.key.itemPriority === 'low' ? 'green' : 'orange')">
-                    {{item.key.itemCategory}}
-                  </ion-card-subtitle>
-                  <ion-icon *ngIf="item.key.itemPriority === 'high' " color="danger" size="small" name="ellipse">
-                  </ion-icon>
-                  <ion-icon *ngIf="item.key.itemPriority === 'middle' " color="warning" size="small" name="ellipse">
-                  </ion-icon>
-                  <ion-icon *ngIf="item.key.itemPriority === 'low' " color="success" size="small" name="ellipse">
-                  </ion-icon>
-                </ion-card-header>
                 <ion-card-content>
+
                   <div class="content-container">
                     <ion-icon name="bed" class="bed-icon" size="large"></ion-icon>
                     <div class="title-desc">
@@ -59,23 +48,33 @@
                         <ion-icon name="time" class="time"></ion-icon>
                         <ion-label class="date">Due {{item.key.itemDueDate | date:'fullDate'}}</ion-label>
                       </div>
+                      <ion-card-subtitle class="tag"
+                        [style.color]="item.key.itemPriority === 'high' ? 'red' : (item.key.itemPriority === 'low' ? 'green' : 'orange')">
+                        {{item.key.itemCategory}}
+                        <ion-icon *ngIf="item.key.itemPriority === 'high' " color="danger" size="small" name="ellipse">
+                        </ion-icon>
+                        <ion-icon *ngIf="item.key.itemPriority === 'middle' " color="warning" size="small"
+                          name="ellipse">
+                        </ion-icon>
+                        <ion-icon *ngIf="item.key.itemPriority === 'low' " color="success" size="small" name="ellipse">
+                        </ion-icon>
+                      </ion-card-subtitle>
                     </div>
                   </div>
                 </ion-card-content>
               </ion-item>
-
               <ion-item-options side="end">
                 <ion-item-option color="warning" (click)="onUpdate(item, slidingItem)">
-                  <ion-icon name="refresh-outline"></ion-icon>
-                  <p>Update</p>
+                  <ion-icon name="refresh-outline" size="large"></ion-icon>
+                  <!-- <p>Update</p> -->
                 </ion-item-option>
                 <ion-item-option color="success" (click)="onComplete(item.value, item.key, slidingItem)">
-                  <ion-icon name="checkmark-outline"></ion-icon>
-                  <p>Complete</p>
+                  <ion-icon name="checkmark-outline" size="large"></ion-icon>
+                  <!-- <p>Complete</p> -->
                 </ion-item-option>
                 <ion-item-option color="danger" (click)="onDelete(item.value, slidingItem)">
-                  <ion-icon name="trash-outline"></ion-icon>
-                  <p>Delete</p>
+                  <ion-icon name="trash-outline" size="large"></ion-icon>
+                  <!-- <p>Delete</p> -->
                 </ion-item-option>
               </ion-item-options>
 
@@ -90,7 +89,6 @@
           <div class="list-header">Completed</div>
           <ion-card *ngFor="let cItem of completedReminderList; let i = index" class="ion-margin card-container">
             <ion-item-sliding #slidingItem>
-
               <ion-item>
                 <ion-card-content>
                   <div class="content-container">
@@ -99,18 +97,17 @@
                       <ion-label class="title">{{cItem.key.itemName}}</ion-label>
                       <ion-label class="desc">{{cItem.key.itemDetails}}</ion-label>
                       <div class="date-container">
-                        <ion-icon name="time" class="completed-time"></ion-icon>
+                        <ion-icon name="time" class="time"></ion-icon>
                         <ion-label class="date">Due {{cItem.key.itemDueDate | date:'fullDate'}}</ion-label>
                       </div>
                     </div>
                   </div>
                 </ion-card-content>
               </ion-item>
-
               <ion-item-options side="end">
                 <ion-item-option color='danger' (click)="onDelete(cItem.value, slidingItem)">
-                  <ion-icon name="trash-outline"></ion-icon>
-                  <p>Delete</p>
+                  <ion-icon name="trash-outline" size="large"></ion-icon>
+                  <!-- <p>Delete</p> -->
                 </ion-item-option>
               </ion-item-options>
 
