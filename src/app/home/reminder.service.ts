@@ -49,7 +49,7 @@ export class ReminderService {
   }
 
   getUncompletedReminders(){
-    let reminders: any;
+    let reminders: any = [];
     this.storage.forEach((value, key, index) => {
       if(value.isCompleted === false){
       reminders.push({ key: value, value: key });
@@ -81,6 +81,7 @@ export class ReminderService {
         reminders.push({key: value , value: key});
       }
       });
+      console.log(reminders)
       return reminders;
     })
   }
