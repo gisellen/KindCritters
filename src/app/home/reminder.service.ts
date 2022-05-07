@@ -49,7 +49,7 @@ export class ReminderService {
   }
 
   getUncompletedReminders(){
-    let reminders: any = [];
+    let reminders: any;
     this.storage.forEach((value, key, index) => {
       if(value.isCompleted === false){
       reminders.push({ key: value, value: key });
@@ -63,12 +63,27 @@ export class ReminderService {
     let reminders: any = [];
     this.storage.forEach((value, key, index) => {
       if(value.isCompleted === true){
-      reminders.push({ key: value, value: key });
+      reminders.push({key: value, value: key});
+      // console.log(index)
     }
-    });
+    })
+    // reminders.push({1: 'hi'})
+    // reminders.push(2)
     return reminders;
   }
 
+
+  getData(): any{
+    return this.storage.create().then(() => {
+      let reminders: any = [];
+      this.storage.forEach((value, key, index) => {
+        if(value.isCompleted === true){
+        reminders.push({key: value , value: key});
+      }
+      });
+      return reminders;
+    })
+  }
   getReminderCount(){
     this.storage.length().then(result =>
       console.log(result))

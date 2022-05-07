@@ -15,7 +15,7 @@ export class RemindersPage implements OnInit {
   selectTabs = 'upcoming';
   reminderList: any = [];
   UncompleteReminderList: any = [];
-  completedReminderList = [];
+  completedReminderList: any = [];
 
   constructor(
     public modalCtrl: ModalController,

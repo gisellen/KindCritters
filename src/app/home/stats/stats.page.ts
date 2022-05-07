@@ -3,6 +3,7 @@ import { registerables } from 'chart.js';
 import Chart from 'chart.js/auto';
 import {DateTime} from 'luxon';
 import { ReminderService } from '../reminder.service';
+import { ActivatedRoute } from '@angular/router';
 
 Chart.register(...registerables);
 
@@ -14,40 +15,47 @@ Chart.register(...registerables);
 export class StatsPage implements AfterViewInit {
   @ViewChild('barCanvas') private barCanvas: ElementRef;
   barChart: any;
-  completedReminders = [];
+  completedReminders: any;
   minDate : any;
   maxDate: any;
-  constructor(reminderService: ReminderService) { 
-    reminderService.getCompletedReminders().forEach(element => {
-      this.completedReminders.push(element);
-    });
-    this.completedReminders = reminderService.getCompletedReminders();
-    console.log(this.completedReminders.length)
-    for(let i = 0; i < this.completedReminders.length; i++){
-      console.log("Namaste.")
-    }
-    console.log(this.completedReminders);
-    console.log(this.completedReminders.length);
-    this.minDate = DateTime.now().plus({days: -6}).toLocaleString(DateTime.DATE_SHORT);
-    this.maxDate = DateTime.now().toLocaleString(DateTime.DATE_SHORT);
-    console.log(this.maxDate);
-    this.filterReminders();
+  constructor(public reminderService: ReminderService, public activatedRoute: ActivatedRoute) { 
     
-    // this.completedReminders.forEach(e => {
-    //   if((e.key.dateFinished >= minDate) && (e.key.dateFinished <= maxDate){
-    //     result.push(e);
-    //     console.log("Test passed.")
-    //   }
-    //   console.log("Test Failed")
+    // reminderService.getCompletedReminders().forEach(element => {
+    //   this.completedReminders.push(element);
     // });
+    // this.completedReminders = reminderService.getCompletedReminders();
+    // console.log(this.completedReminders.length)
+    // for(let i = 0; i < this.completedReminders.length; i++){
+    //   console.log("Namaste.")
+    // }
+    // console.log(this.completedReminders);
+    // console.log(this.completedReminders.length);
+    // this.minDate = DateTime.now().plus({days: -6}).toLocaleString(DateTime.DATE_SHORT);
+    // this.maxDate = DateTime.now().toLocaleString(DateTime.DATE_SHORT);
+    // console.log(this.maxDate);
+    // this.filterReminders();
+    
+    // // this.completedReminders.forEach(e => {
+    // //   if((e.key.dateFinished >= minDate) && (e.key.dateFinished <= maxDate){
+    // //     result.push(e);
+    // //     console.log("Test passed.")
+    // //   }
+    // //   console.log("Test Failed")
+    // // });
 
   }
 
 
 
   ngAfterViewInit() {
-    
     this.barChartMethod();
+    this.activatedRoute.url.subscribe((url) => {
+      console.log(this.reminderService.getCompletedReminders())
+      this.completedReminders = this.reminderService.getData()
+      console.log(this.completedReminders)
+      console.log(this.completedReminders.length)
+    });
+
   }
 
   filterReminders(){
