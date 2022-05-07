@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import {DateTime} from 'luxon';
 import { IonItemSliding, ModalController } from '@ionic/angular';
 import { ReminderService } from '../reminder.service';
 import { AddReminderPage } from '../add-reminder/add-reminder.page';
@@ -48,6 +49,7 @@ export class RemindersPage implements OnInit {
     console.log(this.reminderService.getAllReminders());
   }
 
+
   async complete(key, value) {
     let newReminderObj = {
       itemName: value.itemName,
@@ -56,14 +58,18 @@ export class RemindersPage implements OnInit {
       itemPriority: value.itemPriority,
       itemCategory: value.itemCategory,
       isCompleted: true,
+      dateFinsihed: value.dateFinished
     };
+    newReminderObj.dateFinsihed = DateTime.now().plus({days: 0}).toLocaleString(DateTime.DATE_SHORT)
     await this.reminderService.setCompleted(key, newReminderObj);
     this.getUncompletedReminders();
     this.getCompletedReminders();
+    console.log(this.completedReminderList)
   }
 
   onComplete(key, value, slidingItem: IonItemSliding) {
     slidingItem.close();
+    
     this.complete(key, value);
   }
 
@@ -85,6 +91,10 @@ export class RemindersPage implements OnInit {
 
   getCompletedReminders() {
     this.completedReminderList = this.reminderService.getCompletedReminders();
+  }
+
+  returnCompletedReminders(){
+    return this.completedReminderList;
   }
 
   // DEBUG FUNCTIONS

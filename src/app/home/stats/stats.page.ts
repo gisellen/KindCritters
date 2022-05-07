@@ -2,6 +2,7 @@ import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { registerables } from 'chart.js';
 import Chart from 'chart.js/auto';
 import {DateTime} from 'luxon';
+import { ReminderService } from '../reminder.service';
 
 Chart.register(...registerables);
 
@@ -13,16 +14,52 @@ Chart.register(...registerables);
 export class StatsPage implements AfterViewInit {
   @ViewChild('barCanvas') private barCanvas: ElementRef;
   barChart: any;
-  constructor() { }
+  completedReminders = [];
+  minDate : any;
+  maxDate: any;
+  constructor(reminderService: ReminderService) { 
+    reminderService.getCompletedReminders().forEach(element => {
+      this.completedReminders.push(element);
+    });
+    this.completedReminders = reminderService.getCompletedReminders();
+    console.log(this.completedReminders.length)
+    for(let i = 0; i < this.completedReminders.length; i++){
+      console.log("Namaste.")
+    }
+    console.log(this.completedReminders);
+    console.log(this.completedReminders.length);
+    this.minDate = DateTime.now().plus({days: -6}).toLocaleString(DateTime.DATE_SHORT);
+    this.maxDate = DateTime.now().toLocaleString(DateTime.DATE_SHORT);
+    console.log(this.maxDate);
+    this.filterReminders();
+    
+    // this.completedReminders.forEach(e => {
+    //   if((e.key.dateFinished >= minDate) && (e.key.dateFinished <= maxDate){
+    //     result.push(e);
+    //     console.log("Test passed.")
+    //   }
+    //   console.log("Test Failed")
+    // });
+
+  }
+
+
 
   ngAfterViewInit() {
+    
     this.barChartMethod();
+  }
+
+  filterReminders(){
+    let result = this.completedReminders.filter(a => a.key.dateFinished >= this.minDate);
+    console.log(result);
   }
 
   barChartMethod(){
     const DATA_COUNT = 7;
     const NUMBER_CFG = {count: DATA_COUNT, min: 0, max: 100}; 
     console.log(DateTime.now().plus(1))
+    graphData: [0, 0, 0, 0, 0, 0, 0]
 
     this.barChart = new Chart(this.barCanvas.nativeElement, { 
       type: 'bar',

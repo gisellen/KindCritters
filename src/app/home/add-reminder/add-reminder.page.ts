@@ -17,6 +17,7 @@ export class AddReminderPage implements OnInit {
   itemDueDate;
   itemPriority;
   itemCategory;
+  dateFinished
 
   constructor(
     public modalCtrl: ModalController,
@@ -29,14 +30,17 @@ export class AddReminderPage implements OnInit {
   }
 
   async add() {
+
     this.newReminderObj = {
       itemName: this.itemName,
       itemDetails: this.itemDetails,
       itemDueDate: this.itemDueDate,
       itemPriority: this.itemPriority,
       itemCategory: this.categorySelectedCategory,
-      isCompleted: false
+      isCompleted: false,
+      dateFinished: this.dateFinished
     };
+
     console.log(this.newReminderObj);
     const uid = this.itemName + this.itemDueDate;
 
