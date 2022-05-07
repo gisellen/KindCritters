@@ -3,6 +3,19 @@ ion-content {
   background: #56742c;
 }
 
+ion-title{
+  color: rgb(73, 74, 72);
+}
+
+ion-segment{
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+background-color: rgb(234, 230, 224);
+}
+ion-segment-button{
+  font-weight: bold;
+}
+
 .creature {
   flex-direction: column;
   justify-content: center;
@@ -11,7 +24,13 @@ ion-content {
   margin-bottom: 20px;
 }
 
+.cards{
+  overflow-y: scroll;
+  height: 50vh;
+}
+
 .creature-container {
+  position: sticky;
   bottom: 0;
   width: 40%;
 }
@@ -35,6 +54,7 @@ ion-content {
 }
 
 .bed-icon {
+  color: rgb(73, 74, 72);
   align-self: center;
 }
 
@@ -43,13 +63,14 @@ ion-content {
   flex-direction: column;
   width: 100%;
   margin-left: 30px;
-
   .title {
     font-weight: bold;
+    color: rgb(73, 74, 72);
   }
 
   .desc {
     font-size: 10px;
+    color: rgb(73, 74, 72);
   }
 }
 
@@ -59,11 +80,13 @@ ion-content {
   .time {
     align-self: center;
     margin-right: 5px;
+    color: rgb(73, 74, 72);
   }
 
   .date {
     align-self: center;
     font-size: 13px;
+    color: rgb(73, 74, 72);
   }
 }
 

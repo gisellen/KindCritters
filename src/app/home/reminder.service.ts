@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
+import { Observable, of } from 'rxjs'; // only need to import from rxjs
 
 @Injectable({
   providedIn: 'root',
@@ -38,8 +39,8 @@ export class ReminderService {
     this.storage.forEach((value, key, index) => {
       reminders.push({ key: value, value: key });
     });
-    console.log(reminders)
     return reminders;
+    // return reminders;
   }
 
   setCompleted(key, newValue){
@@ -54,7 +55,7 @@ export class ReminderService {
       reminders.push({ key: value, value: key });
     }
     });
-    console.log(reminders)
+    // console.log(reminders)
     return reminders;
   }
 
@@ -80,20 +81,26 @@ export class ReminderService {
     });
     console.log(reminders)
   }
+
+  //calculate for mood system
+  mood(){
+    let mood: any;
+    let completed = this.getCompletedReminders();
+    let total = this.getAllReminders();
+
+    mood = completed.length/total.length;
+    console.log(mood)
+  }
+
   // Create storage for reminders
   async init() {
     await this.storage.create();
   }
+  
 
   //debug function
 debug(){
-  let reminders: any = [];
-  this.storage.forEach((value, key, index) => {
-    if(value.isCompleted === true){
-    reminders.push({ key: value, value: key });
-  }
-  });
-  console.log(reminders)
+  this.storage.clear()
 }
 }
 
