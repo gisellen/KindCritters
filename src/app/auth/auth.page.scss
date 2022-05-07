@@ -1,12 +1,16 @@
 ion-content {
-    --background: url(/assets/kindcrittersbg.png) 0 100% no-repeat !important;
-    background: #3679aa;
+  --background: url(/assets/kindcrittersbg.png) 0 100% no-repeat !important;
+  background: #3679aa;
 }
 
-.login { 
+.login-content {
   background-color: transparent;
 }
 
-.login-container { 
-  
+ion-item {
+  color: white;
+}
+
+.switch-color {
+  color: white;
 }

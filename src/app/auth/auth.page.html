@@ -5,35 +5,41 @@
 </ion-header>
 
 <ion-content class="ion-padding background">
-  <div class="login-container">
-    <form #f="ngForm" (onSubmit)="onSubmit(f)" class="login" color="none" lines="none">
-      <ion-list class="login" color="none" lines="none"> 
-        <ion-item class="login" color="none" lines="none">
-          <ion-label position="floating" class="login">Email</ion-label>
-          <ion-input type="email" ngModel name="email" required email #emailCtrl="ngModel" class="login"></ion-input>
-        </ion-item>
-        <ion-item *ngIf="!emailCtrl.valid && emailCtrl.touched" lines="none" class="login" color="none" lines="none">
-          <ion-label color="danger">Should be a valid email address.</ion-label>
-        </ion-item>
-        <ion-item class="login" color="none" color="none" lines="none">
-          <ion-label position="floating" class="login">Password</ion-label>
-          <ion-input type="password" ngModel name="password" required minlength="6" #passwordCtrl="ngModel"></ion-input>
-        </ion-item>
-        <ion-item *ngIf="!passwordCtrl.valid && passwordCtrl.touched" color="none" lines="none">
-          <ion-label color="danger">Should be at least 6 characters long.</ion-label>        
-        </ion-item>
-      </ion-list>
-      <div class="ion-text-center">
-        <ion-spinner color="danger" *ngIf="isLoading"></ion-spinner>
-      </div>
-      <ion-button type="submit" color="danger" (click)="onLogin()" style="width:100%">
-        {{isLogin ? 'Login': 'Sign Up'}}
-      </ion-button>
+  <form #f="ngForm" (onSubmit)="onSubmit(f)">
+    <ion-grid>
       <ion-row>
-        <ion-col>
-          <ion-button type="button" color="dark" fill="clear" expand="block" (click)="onSwitchAuthMode()">Switch to {{isLogin ? 'Signup' : 'Login'}}</ion-button>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-list class="login-content">
+            <ion-item color="none" lines="none">
+              <ion-label position="floating">Email</ion-label>
+              <ion-input type="email" ngModel name="email" required email #emailCtrl="ngModel">
+              </ion-input>
+            </ion-item>
+            <ion-item *ngIf="!emailCtrl.valid && emailCtrl.touched" lines="none" color="none" lines="none">
+              <ion-label color="danger">Should be a valid email address.</ion-label>
+            </ion-item>
+            <ion-item color="none" lines="none">
+              <ion-label color="" position="floating">Password</ion-label>
+              <ion-input type="password" ngModel name="password" required minlength="6" #passwordCtrl="ngModel">
+              </ion-input>
+            </ion-item>
+            <ion-item *ngIf="!passwordCtrl.valid && passwordCtrl.touched" color="none" lines="none">
+              <ion-label color="danger">Should be at least 6 characters long.</ion-label>
+            </ion-item>
+          </ion-list>
         </ion-col>
       </ion-row>
-    </form>
-  </div>
+
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-button class="switch-color" type="button" fill="clear" expand="block" (click)="onSwitchAuthMode()">Switch
+            to
+            {{isLogin ? 'Signup' : 'Login'}}</ion-button>
+          <ion-button type="submit" color="primary" (click)="onLogin()" expand="block">
+            {{isLogin ? 'Login': 'Sign Up'}}
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
 </ion-content>
