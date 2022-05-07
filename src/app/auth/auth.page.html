@@ -5,6 +5,7 @@
 </ion-header>
 
 <ion-content class="ion-padding background">
+  <div class="login-container">
     <form #f="ngForm" (onSubmit)="onSubmit(f)" class="login" color="none" lines="none">
       <ion-list class="login" color="none" lines="none"> 
         <ion-item class="login" color="none" lines="none">
@@ -23,9 +24,9 @@
         </ion-item>
       </ion-list>
       <div class="ion-text-center">
-        <ion-spinner color="primary" *ngIf="isLoading"></ion-spinner>
+        <ion-spinner color="danger" *ngIf="isLoading"></ion-spinner>
       </div>
-      <ion-button type="submit" color="primary" (click)="onLogin()" style="width:100%">
+      <ion-button type="submit" color="danger" (click)="onLogin()" style="width:100%">
         {{isLogin ? 'Login': 'Sign Up'}}
       </ion-button>
       <ion-row>
@@ -34,4 +35,5 @@
         </ion-col>
       </ion-row>
     </form>
+  </div>
 </ion-content>
