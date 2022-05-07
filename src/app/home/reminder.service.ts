@@ -73,18 +73,28 @@ export class ReminderService {
   }
 
 
-  getData(): any{
+  getData(): Promise<any>{
     return this.storage.create().then(() => {
-      let reminders: any = [];
-      this.storage.forEach((value, key, index) => {
+      let reminders = [];
+      this.storage.forEach( (value, key, index) => {
         if(value.isCompleted === true){
         reminders.push({key: value , value: key});
+        console.log(reminders)
+        console.log(reminders.length)
       }
-      });
-      console.log(reminders)
-      return reminders;
+      }).then(async () =>{
+        await Promise.all(reminders).then(res => {
+          let data = res;
+          return data
+        })
+        console.log(reminders.length)
+        return reminders;
+      })
+      
+
     })
   }
+
   getReminderCount(){
     this.storage.length().then(result =>
       console.log(result))

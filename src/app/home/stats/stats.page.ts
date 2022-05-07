@@ -50,14 +50,15 @@ export class StatsPage implements AfterViewInit {
   ngAfterViewInit() {
     this.barChartMethod();
     this.activatedRoute.url.subscribe((url) => {
-      console.log(this.reminderService.getCompletedReminders())
-      this.completedReminders = this.reminderService.getData()
+      this.getData();
       console.log(this.completedReminders)
-      console.log(this.completedReminders.length)
     });
 
   }
 
+  getData(){
+    this.completedReminders = this.reminderService.getData()
+  }
   filterReminders(){
     let result = this.completedReminders.filter(a => a.key.dateFinished >= this.minDate);
     console.log(result);
