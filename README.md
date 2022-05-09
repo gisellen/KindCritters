@@ -1,5 +1,6 @@
 # <img width="50px" height="50px" src="https://img.icons8.com/external-colorful-filled-outline-dmitry-mirolyubov/344/external-animal-halloween-colorful-filled-outline-dmitry-mirolyubov.png"> KindCritters
 An RPG style reminder application for CSC 438 (Mobile Development).  This is intended to help users complete their goals with a help of a little creature to take care of!
+
 This application is currently deployed at: https://627996bd7f39d21e5c0cc0a0--ubiquitous-druid-ab1b2f.netlify.app/
 
 **NOTE:** THIS WEBSITE IS ONLY OPTIMIZED FOR IPHONE 12 PRO. Please run Google Chrome's Inspect Element and set the display to iPhone 12 Pro.
