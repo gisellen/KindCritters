@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 
+
+import { db } from 'src/environments/environment';
+import { getDocs, collection, query, where, deleteDoc } from 'firebase/firestore'
+import { getAuth } from "firebase/auth";
+
 @Injectable({
   providedIn: 'root',
 })
@@ -10,12 +15,14 @@ export class ReminderService {
     this.init();
   }
 
-  addReminder(key, value) {
-    this.storage.set(key, value);
-  }
+  //getting current user
+  auth = getAuth();
+  user = this.auth.currentUser;
 
+  //FUNCTIONS
   completeReminder(key) {
-    this.storage.keys();
+    console.log(key)
+    // this.storage.keys();
     // this.storage.remove(key);
   }
 
@@ -32,48 +39,61 @@ export class ReminderService {
     return this.storage.get(key);
   }
 
-  getAllReminders() {
-    // eslint-disable-next-line prefer-const
-    let reminders: any = [];
-    this.storage.forEach((value, key, index) => {
-      reminders.push({ key: value, value: key });
-    });
-    return reminders;
-    // return reminders;
+  async getAllReminders() {
+    const q = query(collection(db, 'users'), where("email", "==", this.user.email))
+    const snapshot = await getDocs(q);
+    const docRefId = snapshot.docs[0].id;
+
+    let array = []
+    //gets sub collection
+    const subColRef = await getDocs(collection(db, "users", docRefId, "reminders"));
+    subColRef.forEach(d => {
+      array.push(d.data())
+    })
+    return array;
   }
 
-  setCompleted(key, newValue){
+  setCompleted(key, newValue) {
     this.storage.set(key, newValue);
     this.getAllReminders();
   }
 
-  getUncompletedReminders(){
-    let reminders: any = [];
-    this.storage.forEach((value, key, index) => {
-      if(value.isCompleted === false){
-      reminders.push({ key: value, value: key });
-    }
-    });
-    // console.log(reminders)
-    return reminders;
+  async getUncompletedReminders() {
+    const q = query(collection(db, 'users'), where("email", "==", this.user.email))
+    const snapshot = await getDocs(q);
+    const docRefId = snapshot.docs[0].id;
+
+    let array = []
+    //gets sub collection
+    const q2 = await query(collection(db, "users", docRefId, "reminders"), where("isCompleted", "==", false));
+    const snapshotUncompleted = await getDocs(q2);
+    snapshotUncompleted.forEach(d => {
+      array.push(d.data())
+    })
+    return array;
   }
 
-  getCompletedReminders(){
-    let reminders: any = [];
-    this.storage.forEach((value, key, index) => {
-      if(value.isCompleted === true){
-      reminders.push({ key: value, value: key });
-    }
-    });
-    return reminders;
+  async getCompletedReminders() {
+    const q = query(collection(db, 'users'), where("email", "==", this.user.email))
+    const snapshot = await getDocs(q);
+    const docRefId = snapshot.docs[0].id;
+
+    let array = []
+    //gets sub collection
+    const q2 = await query(collection(db, "users", docRefId, "reminders"), where("isCompleted", "==", true));
+    const snapshotUncompleted = await getDocs(q2);
+    snapshotUncompleted.forEach(d => {
+      array.push(d.data())
+    })
+    return array;
   }
 
-  getReminderCount(){
+  getReminderCount() {
     this.storage.length().then(result =>
       console.log(result))
   }
 
-  getReminders(){
+  getReminders() {
     let reminders: any = [];
     this.storage.forEach((value, key, index) => {
       reminders.push({ key: value, value: key });
@@ -81,25 +101,15 @@ export class ReminderService {
     console.log(reminders)
   }
 
-  //calculate for mood system
-  mood(){
-    let mood: any;
-    let completed = this.getCompletedReminders();
-    let total = this.getAllReminders();
-
-    mood = completed.length/total.length;
-    console.log(mood)
-  }
-
   // Create storage for reminders
   async init() {
     await this.storage.create();
   }
-  
+
 
   //debug function
-debug(){
-  this.storage.clear()
-}
+  debug() {
+    this.storage.clear()
+  }
 }
 

@@ -6,19 +6,26 @@ import {
   signOut,
 } from '@angular/fire/auth';
 
+import { db } from 'src/environments/environment';
+import { collection, addDoc } from 'firebase/firestore'
+
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   constructor(private auth: Auth) {}
 
-  async register({ email, password }) {
+  async register({email, password}) {
     try {
       const user = await createUserWithEmailAndPassword(
         this.auth,
         email,
         password
       );
+      //add user to firebase
+      const docRef = await addDoc(collection(db, 'users'), {
+        email: email
+      });
       return user;
     } catch (e) {
       return null;
@@ -34,7 +41,7 @@ export class AuthService {
     }
   }
 
-  logout() {
+  logout() { //logs out user
     return signOut(this.auth);
   }
 }

@@ -11,28 +11,39 @@ export class CreaturePage implements OnInit {
   uncompleteReminderList: any = [];
   completedReminderList: any = [];
   totalReminders: any = [];
-  count: any;
-  mood: any = [];
+  mood: any;
 
   constructor(
     public reminderService: ReminderService,
     public activatedRoute: ActivatedRoute
-  ) {}
+  ) { }
 
-  getData() {
-    this.uncompleteReminderList =
-      this.reminderService.getUncompletedReminders(); // Get all Uncompleted reminders from storage
-    this.completedReminderList = this.reminderService.getCompletedReminders();
-    this.totalReminders = this.reminderService.getAllReminders();
+  async ngOnInit() {
+    await this.getUncompletedReminders(); // Get all Uncompleted reminders from storage
+    await this.getCompletedReminders(); // get all completed reminders from storage
+    await this.getTotalReminders();
+    await this.calculateMood()
   }
 
-  ngOnInit() {
-    this.activatedRoute.url.subscribe((url) => {
-      this.getData();
-    });
+  //get uncompleted reminders
+  async getUncompletedReminders() {
+    this.uncompleteReminderList = await this.reminderService.getUncompletedReminders();
+
+
   }
 
-  UF() {
-    this.reminderService.debug();
+  //gets completed reminders
+  async getCompletedReminders() {
+    this.completedReminderList = await this.reminderService.getCompletedReminders();
+  }
+
+  async getTotalReminders() {
+    this.totalReminders = await this.reminderService.getAllReminders();
+  }
+
+
+  calculateMood() {
+    this.mood = this.completedReminderList.length / this.totalReminders.length
+    console.log(this.mood)
   }
 }
