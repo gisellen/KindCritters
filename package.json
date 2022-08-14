@@ -16,6 +16,7 @@
   "dependencies": {
     "@angular/common": "~13.2.2",
     "@angular/core": "~13.2.2",
+    "@angular/fire": "^7.3.0",
     "@angular/forms": "~13.2.2",
     "@angular/platform-browser": "~13.2.2",
     "@angular/platform-browser-dynamic": "~13.2.2",
@@ -23,7 +24,11 @@
     "@ionic/angular": "^6.1.2",
     "@ionic/storage-angular": "^3.0.6",
     "chart.js": "^3.7.1",
+<<<<<<< HEAD
     "firebase": "^9.9.2",
+=======
+    "firebase": "9.7.0",
+>>>>>>> a9a1019f8b5d4f336acf42f9e9c8a957b83cfd6f
     "luxon": "^2.3.2",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",

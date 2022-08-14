@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, AlertController } from '@ionic/angular';
 import { AuthService } from './auth.service';
 
 @Component({
@@ -10,51 +10,75 @@ import { AuthService } from './auth.service';
   styleUrls: ['./auth.page.scss'],
 })
 export class AuthPage implements OnInit {
-  isLoading = false;
+  credentials: FormGroup;
   isLogin = true;
 
   constructor(
+    private fb: FormBuilder,
+    private alertController: AlertController,
+    private loadingController: LoadingController,
     private authService: AuthService,
-    private router: Router,
-    private loadingCtrl: LoadingController
+    private router: Router
   ) {}
 
-  ngOnInit() {}
-  onLogin() {
-    this.isLoading = true;
-    this.authService.login();
-    this.loadingCtrl
-      .create({
-        keyboardClose: true,
-        message: 'Loading Please Wait...',
-        spinner: 'crescent',
-      })
-      .then((loadingEl) => {
-        loadingEl.present();
-        setTimeout(() => {
-          this.isLoading = false;
-          loadingEl.dismiss();
-          this.router.navigateByUrl('/home/tabs/reminders');
-        }, 1500);
-      });
+  // Easy access for form fields
+  get email() {
+    return this.credentials.get('email');
   }
 
-  onSwitchAuthMode() {
-    this.isLogin = !this.isLogin;
+  get password() {
+    return this.credentials.get('password');
   }
 
-  onSubmit(form: NgForm) {
-    if (!form.valid) {
-      return;
-    }
+  ngOnInit() {
+    this.credentials = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+    });
+  }
 
-    const email = form.value.email;
-    const password = form.value.password;
-    console.log(email, password);
-    if (this.isLogin) {
-      // send a request to login server
+  async register() {
+    const loading = await this.loadingController.create({
+      keyboardClose: true,
+      message: 'Signing up...',
+      spinner: 'crescent',
+    });
+    await loading.present();
+
+    const user = await this.authService.register(this.credentials.value);
+    await loading.dismiss();
+
+    if (user) {
+      this.router.navigateByUrl('/home/tabs/reminders', { replaceUrl: true });
     } else {
-      // send a request to signup server
+      this.showAlert('Registration failed', 'Please try again!');
     }
+  }
+
+  async login() {
+    const loading = await this.loadingController.create({
+      keyboardClose: true,
+      message: 'Logging in...',
+      spinner: 'crescent',
+    });
+    await loading.present();
+
+    const user = await this.authService.login(this.credentials.value);
+    await loading.dismiss();
+
+    if (user) {
+      this.router.navigateByUrl('/home/tabs/reminders', { replaceUrl: true });
+    } else {
+      this.showAlert('Login failed', 'Please try again!');
+    }
+  }
+
+  async showAlert(header, message) {
+    const alert = await this.alertController.create({
+      header,
+      message,
+      buttons: ['OK'],
+    });
+    await alert.present();
   }
 }

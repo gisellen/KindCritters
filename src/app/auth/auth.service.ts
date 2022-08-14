@@ -1,22 +1,47 @@
 import { Injectable } from '@angular/core';
+import {
+  Auth,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signOut,
+} from '@angular/fire/auth';
+
+import { db } from 'src/environments/environment';
+import { collection, addDoc } from 'firebase/firestore'
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private _userIsAutheticated = false;
+  constructor(private auth: Auth) {}
 
-  get userIsAutheticated() {
-    return this._userIsAutheticated;
+  async register({email, password}) {
+    try {
+      const user = await createUserWithEmailAndPassword(
+        this.auth,
+        email,
+        password
+      );
+      //add user to firebase
+      const docRef = await addDoc(collection(db, 'users'), {
+        email: email
+      });
+      return user;
+    } catch (e) {
+      return null;
+    }
   }
 
-  constructor() {}
-
-  login() {
-    this._userIsAutheticated = true;
+  async login({ email, password }) {
+    try {
+      const user = await signInWithEmailAndPassword(this.auth, email, password);
+      return user;
+    } catch (e) {
+      return null;
+    }
   }
 
-  logout() {
-    this._userIsAutheticated = false;
+  logout() { //logs out user
+    return signOut(this.auth);
   }
 }

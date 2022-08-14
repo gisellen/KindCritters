@@ -10,8 +10,8 @@ import { AuthService } from './auth/auth.service';
 export class AppComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
-  onLogout() {
-    this.authService.logout();
-    this.router.navigate(['/auth']);
+  async logout() {
+    await this.authService.logout();
+    this.router.navigateByUrl('/auth', { replaceUrl: true });
   }
 }

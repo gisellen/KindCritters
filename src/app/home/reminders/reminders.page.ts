@@ -14,21 +14,17 @@ export class RemindersPage implements OnInit {
   selectTabs = 'upcoming';
   reminderList: any = [];
   UncompleteReminderList: any = [];
-  completedReminderList = [];
+  completedReminderList: any = [];
 
   constructor(
     public modalCtrl: ModalController,
     public reminderService: ReminderService
-  ) {}
+  ) { }
 
-  ngOnInit() {
-    this.UncompleteReminderList =
-      this.reminderService.getUncompletedReminders(); // Get all Uncompleted reminders from storage
-    this.completedReminderList = this.reminderService.getCompletedReminders();
-    this.reminderList = this.reminderService.getAllReminders();
-    // this.unCompletedCount = this.UncompleteReminderList.length
-    // setTimeout(function(){this.unCompletedCount = this.getUncompletedReminderCount()}, 2000);
-    // this.unCompletedCount)
+  // this function will render on load
+  async ngOnInit() {
+    this.getUncompletedReminders(); // Get all Uncompleted reminders from storage
+    this.getCompletedReminders(); // get all completed reminders from storage
   }
 
   async addNewItem() {
@@ -42,30 +38,22 @@ export class RemindersPage implements OnInit {
     return await modal.present();
   }
 
-  getAllReminders() {
-    this.reminderList = this.reminderService.getAllReminders();
-    // this.unCompletedCount = this.UncompleteReminderList.length
-    console.log(this.reminderService.getAllReminders());
+ async getAllReminders() {
+    this.reminderList = await this.reminderService.getAllReminders();
+
   }
 
-  async complete(key, value) {
-    let newReminderObj = {
-      itemName: value.itemName,
-      itemDetails: value.itemDetails,
-      itemDueDate: value.itemDueDate,
-      itemPriority: value.itemPriority,
-      itemCategory: value.itemCategory,
-      isCompleted: true,
-    };
-    await this.reminderService.setCompleted(key, newReminderObj);
-    this.getUncompletedReminders();
-    this.getCompletedReminders();
-  }
+  // async complete(item) {
+  //   item.isCompleted = true;
+  //   await this.reminderService.setCompleted(key, newReminderObj);
+  //   this.getUncompletedReminders();
+  //   this.getCompletedReminders();
+  // }
 
-  onComplete(key, value, slidingItem: IonItemSliding) {
-    slidingItem.close();
-    this.complete(key, value);
-  }
+  // onComplete(item, slidingItem: IonItemSliding) {
+  //   this.complete(item);
+  //   slidingItem.close();
+  // }
 
   delete(key) {
     this.reminderService.deleteReminder(key);
@@ -77,20 +65,15 @@ export class RemindersPage implements OnInit {
     slidingItem.close();
     this.delete(key);
   }
-
-  getUncompletedReminders() {
-    this.UncompleteReminderList =
-      this.reminderService.getUncompletedReminders();
+   
+  //get uncompleted reminders
+  async getUncompletedReminders() {
+    this.UncompleteReminderList = await this.reminderService.getUncompletedReminders();
   }
 
-  getCompletedReminders() {
-    this.completedReminderList = this.reminderService.getCompletedReminders();
-  }
-
-  // DEBUG FUNCTIONS
-  debug() {
-    // this.reminderService.debug()
-    // this.unCompletedCount = this.UncompleteReminderList.length
+  //gets completed reminders
+  async getCompletedReminders() {
+    this.completedReminderList = await this.reminderService.getCompletedReminders();
   }
 
   async update(selectedReminder) {
@@ -109,4 +92,36 @@ export class RemindersPage implements OnInit {
     slidingItem.close();
     this.update(value);
   }
+
+  
+  // DEBUG FUNCTIONS
+  async debug() {
+    // const querySnapshot = await getDocs(collection(db, 'users'));
+    // querySnapshot.forEach(doc => {
+    //   console.log(doc.id, " => ", doc.data());
+    // })
+
+
+    // //getting current user
+    // const auth = getAuth();
+    // const user = auth.currentUser;
+    // console.log(user)
+
+    // const q = query(collection(db, 'users'), where("email", "==", user.email))
+    // const snapshot = await getDocs(q);
+    // const docRefId = snapshot.docs[0].id;
+    // console.log(docRefId) // check
+
+    // //gets sub collection
+    // const subColRef = await getDocs(collection(db, "users", docRefId, "reminders"));
+    // subColRef.forEach(d =>{
+    //   console.log(d.data())
+    // })
+
+    //add doc to sub document
+    // const docRef = await addDoc(collection(db, "users", docRefId, "reminders"), {
+    //   test: "test2"
+    // });
+  }
+
 }
