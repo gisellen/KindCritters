@@ -4,6 +4,8 @@ import { ReminderService } from '../reminder.service';
 import { AddReminderPage } from '../add-reminder/add-reminder.page';
 import { UpdateReminderPage } from '../update-reminder/update-reminder.page';
 
+import { query,collection,getDocs } from 'firebase/firestore';
+
 @Component({
   selector: 'app-reminders',
   templateUrl: './reminders.page.html',
@@ -14,21 +16,17 @@ export class RemindersPage implements OnInit {
   selectTabs = 'upcoming';
   reminderList: any = [];
   UncompleteReminderList: any = [];
-  completedReminderList = [];
+  completedReminderList: any = [];
 
   constructor(
     public modalCtrl: ModalController,
     public reminderService: ReminderService
-  ) {}
+  ) { }
 
-  ngOnInit() {
-    this.UncompleteReminderList =
-      this.reminderService.getUncompletedReminders(); // Get all Uncompleted reminders from storage
-    this.completedReminderList = this.reminderService.getCompletedReminders();
-    this.reminderList = this.reminderService.getAllReminders();
-    // this.unCompletedCount = this.UncompleteReminderList.length
-    // setTimeout(function(){this.unCompletedCount = this.getUncompletedReminderCount()}, 2000);
-    // this.unCompletedCount)
+  // this function will render on load
+  async ngOnInit() {
+    this.getUncompletedReminders(); // Get all Uncompleted reminders from storage
+    this.getCompletedReminders(); // get all completed reminders from storage
   }
 
   async addNewItem() {
@@ -37,60 +35,41 @@ export class RemindersPage implements OnInit {
     });
     modal.onDidDismiss().then((newReminder) => {
       this.getUncompletedReminders();
-      console.log(newReminder);
     });
     return await modal.present();
   }
 
-  getAllReminders() {
-    this.reminderList = this.reminderService.getAllReminders();
-    // this.unCompletedCount = this.UncompleteReminderList.length
-    console.log(this.reminderService.getAllReminders());
+ async getAllReminders() {
+    this.reminderList = await this.reminderService.getAllReminders();
+
   }
 
-  async complete(key, value) {
-    let newReminderObj = {
-      itemName: value.itemName,
-      itemDetails: value.itemDetails,
-      itemDueDate: value.itemDueDate,
-      itemPriority: value.itemPriority,
-      itemCategory: value.itemCategory,
-      isCompleted: true,
-    };
-    await this.reminderService.setCompleted(key, newReminderObj);
+  async complete(item) {
+    item.isCompleted = true;
+    await this.reminderService.setCompleted(item);
     this.getUncompletedReminders();
     this.getCompletedReminders();
   }
 
-  onComplete(key, value, slidingItem: IonItemSliding) {
+  onComplete(item, slidingItem: IonItemSliding) {
+    this.complete(item);
     slidingItem.close();
-    this.complete(key, value);
   }
 
-  delete(key) {
-    this.reminderService.deleteReminder(key);
-    this.getUncompletedReminders();
-    this.getCompletedReminders();
+  async onDelete(item, slidingItem: IonItemSliding) { //deletes reminder from view
+    await this.reminderService.deleteReminder(item)
+    await this.getUncompletedReminders();
+    await this.getCompletedReminders();
+  }
+   
+  //get uncompleted reminders
+  async getUncompletedReminders() {
+    this.UncompleteReminderList = await this.reminderService.getUncompletedReminders();
   }
 
-  onDelete(key, slidingItem: IonItemSliding) {
-    slidingItem.close();
-    this.delete(key);
-  }
-
-  getUncompletedReminders() {
-    this.UncompleteReminderList =
-      this.reminderService.getUncompletedReminders();
-  }
-
-  getCompletedReminders() {
-    this.completedReminderList = this.reminderService.getCompletedReminders();
-  }
-
-  // DEBUG FUNCTIONS
-  debug() {
-    // this.reminderService.debug()
-    // this.unCompletedCount = this.UncompleteReminderList.length
+  //gets completed reminders
+  async getCompletedReminders() {
+    this.completedReminderList = await this.reminderService.getCompletedReminders();
   }
 
   async update(selectedReminder) {
@@ -109,4 +88,9 @@ export class RemindersPage implements OnInit {
     slidingItem.close();
     this.update(value);
   }
+  
+  // DEBUG FUNCTIONS
+  async debug() {
+  }
+
 }

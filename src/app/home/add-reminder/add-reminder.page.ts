@@ -2,6 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { ReminderService } from '../reminder.service';
 
+import { db } from 'src/environments/environment';
+import { getDocs, collection, query, where, addDoc } from 'firebase/firestore'
+import { getAuth } from "firebase/auth";
+
+
 @Component({
   selector: 'app-add-reminder',
   templateUrl: './add-reminder.page.html',
@@ -21,7 +26,7 @@ export class AddReminderPage implements OnInit {
   constructor(
     public modalCtrl: ModalController,
     public reminderService: ReminderService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.categories.push('work');
@@ -37,11 +42,21 @@ export class AddReminderPage implements OnInit {
       itemCategory: this.categorySelectedCategory,
       isCompleted: false
     };
-    console.log(this.newReminderObj);
     const uid = this.itemName + this.itemDueDate;
 
     if (uid) {
-      await this.reminderService.addReminder(uid, this.newReminderObj);
+      //getting current user
+      const auth = getAuth();
+      const user = auth.currentUser;
+      //get user ID
+      const q = query(collection(db, 'users'), where("email", "==", user.email))
+      const snapshot = await getDocs(q);
+      const docRefId = snapshot.docs[0].id;
+
+      //add doc to sub document
+      const docRef = await addDoc(collection(db, "users", docRefId, "reminders"),
+        this.newReminderObj
+      );
     } else {
       console.log('cannot save empty task');
     }
@@ -51,11 +66,9 @@ export class AddReminderPage implements OnInit {
 
   selectedCategory(index) {
     this.categorySelectedCategory = this.categories[index];
-    console.log(this.categorySelectedCategory);
   }
 
   async dismis() {
     await this.modalCtrl.dismiss(this.newReminderObj);
-    console.log('dismis');
   }
 }

@@ -1,79 +1,100 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 
+
+import { db } from 'src/environments/environment';
+import { getDocs, collection, query, where, deleteDoc, doc, updateDoc } from 'firebase/firestore'
+import { getAuth } from "firebase/auth";
+
 @Injectable({
   providedIn: 'root',
 })
 
 export class ReminderService {
   constructor(private storage: Storage) {
-    this.init();
   }
 
-  addReminder(key, value) {
-    this.storage.set(key, value);
+  //FUNCTIONS
+  async getUserId(){ //get id of user
+    //get current user
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+    const q = query(collection(db, 'users'), where("email", "==", user.email))
+    const snapshot = await getDocs(q);
+    const docRefId = snapshot.docs[0].id;
+    return docRefId
   }
 
-  completeReminder(key) {
-    this.storage.keys();
-    // this.storage.remove(key);
+  async getToDoItem(userId, item){ //get document using userid since reminder is a subcollection of the user
+    const q2 = query(collection(db, "users", userId, "reminders"), where("itemName", "==", item.itemName));    const snapshot2 = await getDocs(q2);
+    const docRefId = snapshot2.docs[0].id;
+    return docRefId
   }
 
-  deleteReminder(key) {
-    this.storage.remove(key);
+  async deleteReminder(item) { //delete item
+    const userId = await this.getUserId()
+    const ToDoId = await this.getToDoItem(userId, item)
+    await deleteDoc(doc(db, "users", userId, "reminders", ToDoId));
   }
 
-  updateReminder(key, newValue) {
-    this.storage.set(key, newValue);
-    this.getAllReminders();
+  async getAllReminders() { //get all reminders
+    const docRefId = await this.getUserId()
+
+    let array = []
+    //gets sub collection
+    const subColRef = await getDocs(collection(db, "users", docRefId, "reminders"));
+    subColRef.forEach(d => {
+      array.push(d.data())
+    })
+    return array;
   }
 
-  getReminder(key) {
-    return this.storage.get(key);
+  async setCompleted(item) { //sets reminder as completed
+    const userId = await this.getUserId()
+    const ToDoId = await this.getToDoItem(userId, item)
+    await updateDoc(doc(db, "users", userId, "reminders", ToDoId), item);
   }
 
-  getAllReminders() {
-    // eslint-disable-next-line prefer-const
-    let reminders: any = [];
-    this.storage.forEach((value, key, index) => {
-      reminders.push({ key: value, value: key });
-    });
-    return reminders;
-    // return reminders;
+  async updateReminder(item){
+      const userId = await this.getUserId()
+      const ToDoId = await this.getToDoItem(userId, item)
+      await updateDoc(doc(db, "users", userId, "reminders", ToDoId), item);
   }
 
-  setCompleted(key, newValue){
-    this.storage.set(key, newValue);
-    this.getAllReminders();
+  async getUncompletedReminders() {
+    const docRefId = await this.getUserId()
+
+
+    let array = []
+    //gets sub collection
+    const q2 = await query(collection(db, "users", docRefId, "reminders"), where("isCompleted", "==", false));
+    const snapshotUncompleted = await getDocs(q2);
+    snapshotUncompleted.forEach(d => {
+      array.push(d.data())
+    })
+    return array;
   }
 
-  getUncompletedReminders(){
-    let reminders: any = [];
-    this.storage.forEach((value, key, index) => {
-      if(value.isCompleted === false){
-      reminders.push({ key: value, value: key });
-    }
-    });
-    // console.log(reminders)
-    return reminders;
+  async getCompletedReminders() {
+    const docRefId = await this.getUserId()
+
+    let array = []
+    //gets sub collection
+    const q2 = await query(collection(db, "users", docRefId, "reminders"), where("isCompleted", "==", true));
+    const snapshotUncompleted = await getDocs(q2);
+    snapshotUncompleted.forEach(d => {
+      array.push(d.data())
+    })
+    return array;
   }
 
-  getCompletedReminders(){
-    let reminders: any = [];
-    this.storage.forEach((value, key, index) => {
-      if(value.isCompleted === true){
-      reminders.push({ key: value, value: key });
-    }
-    });
-    return reminders;
-  }
-
-  getReminderCount(){
+  getReminderCount() {
     this.storage.length().then(result =>
       console.log(result))
   }
 
-  getReminders(){
+  getReminders() {
     let reminders: any = [];
     this.storage.forEach((value, key, index) => {
       reminders.push({ key: value, value: key });
@@ -81,25 +102,6 @@ export class ReminderService {
     console.log(reminders)
   }
 
-  //calculate for mood system
-  mood(){
-    let mood: any;
-    let completed = this.getCompletedReminders();
-    let total = this.getAllReminders();
 
-    mood = completed.length/total.length;
-    console.log(mood)
-  }
-
-  // Create storage for reminders
-  async init() {
-    await this.storage.create();
-  }
-  
-
-  //debug function
-debug(){
-  this.storage.clear()
-}
 }
 

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, NavParams } from '@ionic/angular';
 import { ReminderService } from '../reminder.service';
 
 @Component({
@@ -12,7 +12,7 @@ export class UpdateReminderPage implements OnInit {
   categories = [];
   categorySelectedCategory;
 
-  newReminderObj = {};
+  newReminderObj;
   itemName;
   itemDetails;
   itemDueDate;
@@ -21,25 +21,27 @@ export class UpdateReminderPage implements OnInit {
   
   constructor(
     public modalCtrl: ModalController,
-    public reminderService: ReminderService
+    public reminderService: ReminderService,
+    public params: NavParams
   ) {}
 
   ngOnInit() {
+    this.newReminderObj = this.params.get('reminder')
+
     this.categories.push('work');
     this.categories.push('personal');
-
-    this.itemName = this.reminder.key.itemName;
-    this.itemDetails = this.reminder.key.itemDetails;
-    this.itemDueDate = this.reminder.key.itemDueDate;
-    this.itemPriority = this.reminder.key.itemPriority;
-    this.categorySelectedCategory = this.reminder.key.itemCategory;
+    this.itemName = this.newReminderObj.itemName;
+    this.itemDetails = this.newReminderObj.itemDetails;
+    this.itemDueDate = this.newReminderObj.itemDueDate;
+    this.itemPriority = this.newReminderObj.itemPriority;
+    this.categorySelectedCategory = this.newReminderObj.itemCategory;
   }
+
   selectCategory(index) {
     this.categorySelectedCategory = this.categories[index];
-    console.log(this.categorySelectedCategory);
   }
 
-  async dismis() {
+  async dismiss() {
     await this.modalCtrl.dismiss();
   }
 
@@ -52,9 +54,7 @@ export class UpdateReminderPage implements OnInit {
       itemCategory: this.categorySelectedCategory,
       isCompleted: false
     };
-    // eslint-disable-next-line prefer-const
-    let uid = this.reminder.value;
-    await this.reminderService.updateReminder(uid, this.newReminderObj);
-    this.dismis();
+    await this.reminderService.updateReminder(this.newReminderObj);
+    this.dismiss();
   }
 }
