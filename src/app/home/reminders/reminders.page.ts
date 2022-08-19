@@ -4,6 +4,8 @@ import { ReminderService } from '../reminder.service';
 import { AddReminderPage } from '../add-reminder/add-reminder.page';
 import { UpdateReminderPage } from '../update-reminder/update-reminder.page';
 
+import { query,collection,getDocs } from 'firebase/firestore';
+
 @Component({
   selector: 'app-reminders',
   templateUrl: './reminders.page.html',
@@ -33,7 +35,6 @@ export class RemindersPage implements OnInit {
     });
     modal.onDidDismiss().then((newReminder) => {
       this.getUncompletedReminders();
-      console.log(newReminder);
     });
     return await modal.present();
   }
@@ -43,27 +44,22 @@ export class RemindersPage implements OnInit {
 
   }
 
-  // async complete(item) {
-  //   item.isCompleted = true;
-  //   await this.reminderService.setCompleted(key, newReminderObj);
-  //   this.getUncompletedReminders();
-  //   this.getCompletedReminders();
-  // }
-
-  // onComplete(item, slidingItem: IonItemSliding) {
-  //   this.complete(item);
-  //   slidingItem.close();
-  // }
-
-  delete(key) {
-    this.reminderService.deleteReminder(key);
+  async complete(item) {
+    item.isCompleted = true;
+    await this.reminderService.setCompleted(item);
     this.getUncompletedReminders();
     this.getCompletedReminders();
   }
 
-  onDelete(key, slidingItem: IonItemSliding) {
+  onComplete(item, slidingItem: IonItemSliding) {
+    this.complete(item);
     slidingItem.close();
-    this.delete(key);
+  }
+
+  async onDelete(item, slidingItem: IonItemSliding) { //deletes reminder from view
+    await this.reminderService.deleteReminder(item)
+    await this.getUncompletedReminders();
+    await this.getCompletedReminders();
   }
    
   //get uncompleted reminders
@@ -92,36 +88,9 @@ export class RemindersPage implements OnInit {
     slidingItem.close();
     this.update(value);
   }
-
   
   // DEBUG FUNCTIONS
   async debug() {
-    // const querySnapshot = await getDocs(collection(db, 'users'));
-    // querySnapshot.forEach(doc => {
-    //   console.log(doc.id, " => ", doc.data());
-    // })
-
-
-    // //getting current user
-    // const auth = getAuth();
-    // const user = auth.currentUser;
-    // console.log(user)
-
-    // const q = query(collection(db, 'users'), where("email", "==", user.email))
-    // const snapshot = await getDocs(q);
-    // const docRefId = snapshot.docs[0].id;
-    // console.log(docRefId) // check
-
-    // //gets sub collection
-    // const subColRef = await getDocs(collection(db, "users", docRefId, "reminders"));
-    // subColRef.forEach(d =>{
-    //   console.log(d.data())
-    // })
-
-    //add doc to sub document
-    // const docRef = await addDoc(collection(db, "users", docRefId, "reminders"), {
-    //   test: "test2"
-    // });
   }
 
 }
