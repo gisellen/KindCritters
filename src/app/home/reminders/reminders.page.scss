@@ -2,8 +2,8 @@ body {
   overflow: hidden;
 }
 ion-content {
-  --background: url(/assets/kindcrittersbg.png) 0 -130% no-repeat !important;
-  background: #56742c;
+  --background: url(/assets/kindcrittersbg.png) 0% 0% / cover no-repeat fixed !important;
+  object-fit: cover
 
 }
 
